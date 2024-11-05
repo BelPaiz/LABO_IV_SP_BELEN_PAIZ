@@ -1,0 +1,87 @@
+body {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.container-altas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 50%;
+    width: 90%;
+}
+
+.container-usuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    width: 90%;
+}
+
+.opcion {
+    height: 80%;
+    width: 50%;
+    margin: 0.3%;
+}
+
+.usuarios {
+    text-align: center;
+    height: 80%;
+    width: 100%;
+    margin: 0.3%;
+}
+
+.btn-primary {
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins-Light';
+    font-size: 50px;
+    /* padding-top: 13%; */
+    background-color: #0ba3cd;
+    text-align: center;
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: #006993;
+    animation: bounce;
+    animation-duration: 1s;
+}
+
+.altas {
+    padding-top: 20%;
+}
+
+.user {
+    padding-top: 5%;
+    background-color: #004173;
+    color: white;
+}
+
+.dos {
+    background-color: #0cb7f2;
+}
+
+.tres {
+    background-color: #7cdaf9;
+}

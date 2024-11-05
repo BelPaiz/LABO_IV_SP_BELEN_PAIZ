@@ -1,0 +1,35 @@
+<header>
+  <div>
+    <a href="#">
+      <img class="logo" src="../assets/images/logo-clinica.png" alt="logo" width="150px">
+    </a>
+  </div>
+  <nav class="nav-container">
+    <div class="user-dropdown" (click)="toggleDropdown()">
+      <button class="user-button dropdown-toggle" type="button" id="dropdownMenuButton" aria-expanded="false"
+        *ngIf="usuario">{{usuario}}</button>
+      <div class="dropdown-menu" *ngIf="dropdownOpen">
+        <button (click)="cerrarSesion()">Salir</button>
+      </div>
+    </div>
+    <a class="navbar-brand" routerLink="home" [ngClass]="{'ocultar': ocultar}"
+      routerLinkActive="active-route">INICIO</a>
+
+    <a class="navbar-brand" routerLink="registro" [ngClass]="{'ocultar': ocultar}"
+      routerLinkActive="active-route">REGISTRATE</a>
+
+    <a class="navbar-brand" routerLink="login" [ngClass]="{'ocultar': ocultar}" routerLinkActive="active-route">INICIA
+      SESION</a>
+
+    <a class="navbar-brand ocultar" routerLink="admin-usuarios" [ngClass]="{'ocultar':  !mostrar}"
+      routerLinkActive="active-route">ADMINISTRACIÓN</a>
+
+  </nav>
+</header>
+<app-loader></app-loader>
+<footer>
+  <div class="footer-container">
+    <p class="copy">Paiz Belen 2024 &copy;</p>
+  </div>
+</footer>
+<router-outlet />

@@ -1,0 +1,57 @@
+<body class="text-center">
+
+    <div class="container">
+        <form class="sesion">
+            <img class="mb-4" src="../../../assets/images/icono usuario.png" alt="usuario">
+            <h1 class="h3 mb-3 fw-normal">Inicia Sesion</h1>
+
+            <div class="form-floating input">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                    [(ngModel)]="email" name="name" (click)="limpiar()">
+                <label for="floatingInput">Ingrese su email</label>
+            </div>
+            <div class="form-floating input">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                    [(ngModel)]="clave" name="clave" (click)="limpiar()">
+                <label for="floatingPassword">Ingrese su contraseña</label>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <h6 *ngIf="error">{{error}}</h6>
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" (click)="login()"
+                style="border-color: white;">Sign
+                in</button>
+
+            <div class="rellenos">
+                <div class="input-group-append" (click)="rellenarUsuario(0)">
+                    <span class="input-group-text" id="basic-addon2">
+                        <img class="btnEnviar" src="../../../assets/images/user_paciente.png" width="40px"
+                            alt="rellenar datos">
+                    </span>
+                </div>
+                <div class="input-group-append" (click)="rellenarUsuario(1)">
+                    <span class="input-group-text" id="basic-addon2">
+                        <img class="btnEnviar" src="../../../assets/images/user_admin.png" width="40px"
+                            alt="rellenar datos">
+                    </span>
+                </div>
+                <div class="input-group-append" (click)="rellenarUsuario(2)">
+                    <span class="input-group-text" id="basic-addon2">
+                        <img class="btnEnviar" src="../../../assets/images/user_esp.png" width="40px"
+                            alt="rellenar datos">
+                    </span>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+
+
+
+
+</body>

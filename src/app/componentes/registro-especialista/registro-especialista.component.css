@@ -1,0 +1,82 @@
+body {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    width: 100%;
+    background-color: rgba(255,
+            255,
+            255,
+            0.5);
+    padding: 5px 45px;
+}
+
+form input {
+    font-family: 'Poppins-Light';
+    border-color: black;
+}
+
+.logo {
+    /* align-self: flex-end; */
+    max-height: 30%;
+    width: auto;
+}
+
+.texto-titulo {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px !important;
+    padding-bottom: 20px !important;
+}
+
+.container1 {
+    margin-top: 15px;
+}
+
+.form-sesion {
+    background-color: rgba(255,
+            255,
+            255,
+            0.8);
+}
+
+.form-sesion input {
+    border-color: black;
+}
+
+.form-sesion .col-12 {
+    padding-top: 5%;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid #42A948 !important;
+    /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442 !important;
+    /* red */
+}
+
+.text-danger {
+    font-family: 'Poppins-Light';
+}

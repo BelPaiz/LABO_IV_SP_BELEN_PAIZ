@@ -1,0 +1,103 @@
+<body>
+    <div class="container">
+
+        <div class="texto-titulo py-5 text-center ">
+
+            <h5>Formulario de registro de Especialista</h5>
+
+        </div>
+        <form [formGroup]="form" class="form-container" (ngSubmit)="enviar()">
+            <div class="row g-5">
+
+                <div class="col-md-5 col-lg-4 order-md-last form-sesion">
+
+
+                    <div class="col-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email" id="email"
+                            placeholder="usted@ejemplo.com" (click)="limpiarError()">
+                        <ng-container *ngIf="email?.hasError('pattern')">
+                            <small class="text-danger">usted&#64;ejemplo.com</small>
+                        </ng-container>
+
+                    </div>
+
+                    <div class="col-12">
+                        <label for="pass" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="pass" formControlName="clave"
+                            placeholder="Al menos 6 caracteres numeros y letras" required (click)="limpiarError()">
+                        <ng-container *ngIf="clave?.hasError('minlength')">
+                            <small class="text-danger">Al menos 6 caracteres</small>
+                        </ng-container>
+
+                    </div>
+                    <div class="col-12">
+                        <label for="pass2" class="form-label">Reingrese contraseña</label>
+                        <input type="password" class="form-control" id="pass2" formControlName="repiteClave"
+                            placeholder="Vuelva a ingresar contraseña" required (click)="limpiarError()">
+                        <small class="text-danger">
+                            {{repiteClave?.getError('noCoincide')}}
+                        </small>
+                    </div>
+                    <img class="logo" src="../../../assets/images/logo-clinica.png" alt="">
+
+                </div>
+
+                <div class="col-md-7 col-lg-8 container1">
+                    <h5 class="mb-3">Complete los siguientes datos</h5>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" formControlName="nombre" id="nombre"
+                                placeholder="Ingrese nombre" value="" required (click)="limpiarError()">
+                            <ng-container *ngIf="nombre?.hasError('pattern')">
+                                <small class="text-danger">Debe contener solo letras</small>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" formControlName="apellido" class="form-control" id="apellido"
+                                placeholder="Ingrese apellido" value="" required (click)="limpiarError()">
+                            <ng-container *ngIf="apellido?.hasError('pattern')">
+                                <small class="text-danger">Debe contener solo letras</small>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" formControlName="edad" class="form-control" id="edad"
+                                placeholder="Ingrese edad" value="" required (click)="limpiarError()">
+                            <ng-container *ngIf="edad?.hasError('pattern')">
+                                <small class="text-danger">Debe ser numerico</small>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input type="text" formControlName="dni" class="form-control" id="dni"
+                                placeholder="Ingrese DNI" value="" required (click)="limpiarError()">
+                            <ng-container *ngIf="dni?.hasError('pattern')">
+                                <small class="text-danger">Debe ser numerico</small>
+                            </ng-container>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="formFile1" class="form-label">Seleccione imagen de perfil</label>
+                            <input class="form-control" type="file" id="formFile1" (change)="uploadImage($event)"
+                                (click)="limpiarError()">
+                            <div *ngIf="image1Error" class="text-danger">{{ image1Error }}</div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="error" class="text-danger">{{ error }}</div>
+                    <div *ngIf="acept" class="text-success-">{{ acept }}</div>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Registrarse</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<p>registro-admin works!</p>

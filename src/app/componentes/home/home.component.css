@@ -1,0 +1,114 @@
+body {
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: fle;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-home.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.container-prim {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+}
+
+.texto {
+    height: 50%;
+    width: 100%;
+    font-family: 'Poppins-Light';
+    text-align: center;
+    justify-content: center;
+    padding-top: 5%;
+    font-size: 50px;
+    background-color: rgba(255,
+            255,
+            255,
+            0.5);
+    /* background-color: rgba(70, 130, 180, 0.5); */
+    margin-top: 15%;
+    margin-left: 6%;
+    border-radius: 20px;
+
+}
+
+.card-title {
+    font-size: 50px;
+    color: white;
+    /* font-family: 'Poppins-Light'; */
+}
+
+.card-text {
+    font-family: 'Poppins-Light';
+}
+
+.opciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 50%;
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+    margin-left: 6%;
+    margin-bottom: 6%;
+}
+
+.opcion {
+    height: 80%;
+    width: 50%;
+    margin: 0.3%;
+}
+
+.btn-primary {
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins-Light';
+    font-size: 50px;
+    padding-top: 13%;
+    background-color: #0ba3cd;
+}
+
+.dos {
+    background-color: #01c8ff;
+}
+
+.btn-primary:hover {
+    background-color: #006993;
+    animation: bounce;
+    animation-duration: 1s;
+}
+
+.card.imagen {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    height: 90%;
+    width: 50%;
+    overflow: hidden;
+    background: none;
+    border: none;
+
+}
+
+.card-img-top {
+    width: 90%;
+    /* La imagen ocupará el 100% del ancho del contenedor */
+    height: auto;
+    /* Mantiene la proporción de la imagen */
+    max-height: 100%;
+    /* Evita que la imagen exceda el alto del contenedor */
+    object-fit: contain;
+    /* Asegura que la imagen se ajuste dentro del contenedor sin recortarse */
+    /* margin-top: 100px; */
+}

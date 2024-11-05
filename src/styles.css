@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'animate.css/animate.min.css';
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../src/assets/fonts/Poppins.ttf);
+}
+
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url(../src/assets/fonts/Poppins-Light.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Poppins-Light';
+}
+
+.body {
+    height: 100vh;
+    width: 100vw;
+    background: url(../src/assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
