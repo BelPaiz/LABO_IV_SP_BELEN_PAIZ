@@ -1,20 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../services/loader.service';
 import { AuthenService } from '../../services/authen.service';
 import { StorageService } from '../../services/storage.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { confirmarCalveValidator } from '../../validadores/clave.validator';
-import { especialidades } from '../../enumerados/especialidades';
+import { Subscription } from 'rxjs';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { recaptcha } from '../../../../enviromentCap';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-registro-especialista',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './registro-especialista.component.html',
-  styleUrl: './registro-especialista.component.css'
+  styleUrl: './registro-especialista.component.css',
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: { siteKey: recaptcha.siteKey } as RecaptchaSettings,
+    },
+  ],
 })
 export class RegistroEspecialistaComponent {
   constructor(private router: Router,
@@ -29,8 +38,13 @@ export class RegistroEspecialistaComponent {
   img1: string = "";
   error: string = "";
   acept: string = "";
-  especialidades = especialidades;
+  especialidades: any = [];
   especialidadSeleccionada!: string;
+  private subscription: Subscription = new Subscription();
+  nuevaEspecialidad: string = "";
+  token: string | null = null;
+  usuario!: Usuario;
+
 
   ngOnInit(): void {
     this.loader.setLoader(true);
@@ -38,17 +52,30 @@ export class RegistroEspecialistaComponent {
       this.loader.setLoader(false);
     }, 500);
 
+    if (this.especialidades.length === 0) {
+      this.obtenerEspecialidades();
+    }
+
     this.form = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$'), Validators.maxLength(20)]),
       apellido: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$'), Validators.maxLength(20)]),
       edad: new FormControl('', [Validators.required, Validators.pattern('^^\\d{1,3}$')]),
       dni: new FormControl('', [Validators.required, Validators.pattern('^\\d{7,8}$')]),
-      especialidad: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$'), Validators.minLength(3), Validators.maxLength(20)]),
+      especialidad: new FormArray([], Validators.required),
+      especialidadTexto: new FormControl('', Validators.required), // Campo que mostrará el texto de especialidades seleccionadas
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'), Validators.maxLength(50)]),
       clave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
+      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      recaptcha: new FormControl('', Validators.required) // Campo reCAPTCHA
     }, confirmarCalveValidator());
 
+  }
+
+  onCaptchaResolved(token: string | null) {
+    if (token) {
+      this.token = token;
+      this.form.get('recaptcha')?.setValue(token);  // Asigna solo si el token no es null
+    }
   }
 
   uploadImage($event: any) {
@@ -68,22 +95,30 @@ export class RegistroEspecialistaComponent {
     let especialista = null;
     if (this.form.valid && this.img1 !== '') {
       try {
+        if (!this.token) {
+          this.error = "Por favor, complete el reCAPTCHA";
+          return;
+        }
         const dniYaExiste = await this.firestore.dniExiste(this.dni?.value);
         if (dniYaExiste) {
           this.error = "El DNI ya se encuentra registrado";
           return;
         }
         const resp = await this.auth.Registro(this.email?.value, this.clave?.value);
-        especialista = {
+        this.usuario = {
           nombre: this.nombre?.value,
           apellido: this.apellido?.value,
           edad: this.edad?.value,
           dni: this.dni?.value,
+          obra_social: null,
           especialidad: this.especialidad?.value,
           email: this.email?.value,
           img1: this.img1,
+          img2: null,
+          tipo: 'especialista',
+          habilitado: false
         }
-        this.firestore.nuevoEspecialista(especialista);
+        this.firestore.nuevoUsuario(this.usuario);
         this.acept = "Se registro correctamente, por favor complete la validacion del email";
         setTimeout(() => {
           this.acept = " ";
@@ -119,9 +154,31 @@ export class RegistroEspecialistaComponent {
 
   actualizarEspecialidad(event: Event) {
     const select = event.target as HTMLSelectElement;
-    this.form.get('especialidad')?.setValue(select.value);
+    const formArray = this.form.get('especialidad') as FormArray;
     this.form.get('especialidad')?.markAsTouched();
     this.form.get('especialidad')?.markAsDirty();
+
+    formArray.clear();
+
+    for (let i = 0; i < select.selectedOptions.length; i++) {
+      const selectedOption = select.selectedOptions[i].value;
+      formArray.push(new FormControl(selectedOption));
+    }
+    const especialidadesSeleccionadas = formArray.value as string[];
+    this.form.get('especialidadTexto')?.setValue(especialidadesSeleccionadas.join(', '));
+  }
+
+  obtenerEspecialidades() {
+    const subs = this.firestore.getEspecialidades().subscribe((respuesta) => {
+      this.especialidades = respuesta;
+    });
+    this.subscription.add(subs);
+  }
+  crearEspecialidad() {
+    if (this.nuevaEspecialidad !== "") {
+      this.firestore.setEspecialidad(this.nuevaEspecialidad);
+      this.nuevaEspecialidad = "";
+    }
   }
 
   get nombre() {
@@ -149,7 +206,9 @@ export class RegistroEspecialistaComponent {
     return this.form.get('repiteClave');
   }
 
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 
 

@@ -7,7 +7,8 @@
   <nav class="nav-container">
     <div class="user-dropdown" (click)="toggleDropdown()">
       <button class="user-button dropdown-toggle" type="button" id="dropdownMenuButton" aria-expanded="false"
-        *ngIf="usuario">{{usuario}}</button>
+        *ngIf="usuario_completo"> <img [src]="user.img1" alt="Foto de usuario" class="user-photo">
+        {{usuario_completo}}</button>
       <div class="dropdown-menu" *ngIf="dropdownOpen">
         <button (click)="cerrarSesion()">Salir</button>
       </div>
@@ -22,7 +23,12 @@
       SESION</a>
 
     <a class="navbar-brand ocultar" routerLink="admin-usuarios" [ngClass]="{'ocultar':  !mostrar}"
-      routerLinkActive="active-route">ADMINISTRACIÓN</a>
+      routerLinkActive="active-route">USUARIOS</a>
+
+    <a class="navbar-brand ocultar" routerLink="perfil-especialista" [ngClass]="{'ocultar':  !mostrarEsp}"
+      routerLinkActive="active-route">MI PERFIL</a>
+    <a class="navbar-brand ocultar" routerLink="perfil-especialista" [ngClass]="{'ocultar':  !mostrarPac}"
+      routerLinkActive="active-route">MI PERFIL</a>
 
   </nav>
 </header>

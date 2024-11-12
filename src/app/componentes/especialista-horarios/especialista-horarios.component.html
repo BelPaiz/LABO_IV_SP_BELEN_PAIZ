@@ -1,0 +1,58 @@
+<div class="container">
+
+    <h6 style="justify-self: flex-start;">Ingrese disponibilidad horaria: </h6>
+    <div class="tabla">
+        <table class="table table-hover table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">Día</th>
+                    <th scope="col">Desde</th>
+                    <th scope="col">Hasta</th>
+                    <th scope="col">Guardar</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let dia of dias">
+                <tr class="fila">
+                    <td>{{dia}}</td>
+                    <td>
+                        <div class="hora">
+                            <select style="width: 50%;" (change)="recuperarHorario($event, 'inicio')">
+                                <ng-container *ngIf="dia === 'Sábado'; else horarioSemanalTemplate">
+                                    <option *ngFor="let turno of horarioSabado | keyvalue" [value]="turno.key">{{
+                                        turno.value }}
+                                    </option>
+                                </ng-container>
+                                <ng-template #horarioSemanalTemplate>
+                                    <option *ngFor="let turno of horarioSemanal| keyvalue" [value]="turno.key">{{
+                                        turno.value }}
+                                    </option>
+                                </ng-template>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="hora">
+                            <select style="width: 50%;" (change)="recuperarHorario($event, 'fin')">
+                                <ng-container *ngIf="dia === 'Sábado'; else horarioSemanalTemplate">
+                                    <option *ngFor="let turno of horarioSabado | keyvalue" [value]="turno.key">{{
+                                        turno.value }}
+                                    </option>
+                                </ng-container>
+                                <ng-template #horarioSemanalTemplate>
+                                    <option *ngFor="let turno of horarioSemanal| keyvalue" [value]="turno.key">{{
+                                        turno.value }}
+                                    </option>
+                                </ng-template>
+                            </select>
+                            <p>{{error}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" (click)="guardarDisponibilidad(dia)">Guardar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

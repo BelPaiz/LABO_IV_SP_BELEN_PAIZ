@@ -21,7 +21,11 @@ export class LoginComponent {
   ) { }
 
   ngOnInit(): void {
+    this.loader.setLoader(true);
     this.auth.CerrarSesion();
+    this.traerUsuarios();
+
+
   }
 
   email: string = "";
@@ -30,8 +34,10 @@ export class LoginComponent {
   counts: number = 0;
   usuarioLogueado: string = "";
   error: string = "";
-  usuarioDefecto: string[] = ["belen.b.paiz2206@gmail.com", "joxaji1299@gianes.com", "bernardette.belen@gmail.com"];
-  passDefecto: string[] = ["123456", "123456", "123456"];
+  usuarioDefecto: string[] = ["pocog33042@gianes.com", "soxahob494@gianes.com", "vavetil595@cironex.com", "belen.b.paiz2206@gmail.com", "bernardette.belen@gmail.com",
+    "spotificuent@gmail.com"];
+  passDefecto: string[] = ["123456", "123456", "123456", "123456", "123456", "123456"];
+  usuariosPred: any[] = [];
   ocultar: boolean = true;
   tipoUsuario!: string;
 
@@ -56,8 +62,13 @@ export class LoginComponent {
                   this.router.navigate(['/admin-usuarios']);
                   this.loader.setLoader(false);
                 } else {
-                  this.router.navigate(['/home']);
-                  this.loader.setLoader(false);
+                  if (this.tipoUsuario == 'especialista') {
+                    this.router.navigate(['/perfil-especialista']);
+                    this.loader.setLoader(false);
+                  } else {
+                    this.router.navigate(['/home']);
+                    this.loader.setLoader(false);
+                  }
                 }
               }
             }
@@ -88,8 +99,22 @@ export class LoginComponent {
     }
   }
 
+  async traerUsuarios() {
+    try {
+      for (let i = 0; i < this.usuarioDefecto.length; i++) {
+        const res = await this.firestore.getUsuarioEmail(this.usuarioDefecto[i])
+        this.usuariosPred[i] = res['img1'];
+      }
+      this.loader.setLoader(false);
+
+    } catch (e) {
+      console.log(e);
+      this.loader.setLoader(false);
+    }
+
+  }
   getData() {
-    this.firestore.getData(this.counts, this.logsCol);
+    this.firestore.getDataSesions(this.counts, this.logsCol);
   }
   rellenarUsuario(index: number) {
     this.email = this.usuarioDefecto[index];

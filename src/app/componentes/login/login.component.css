@@ -75,6 +75,7 @@ body {
     margin: 5px;
     height: 40%;
     width: 80%;
+    cursor: pointer;
 }
 
 .rellenos {
@@ -84,4 +85,28 @@ body {
     flex-direction: row;
     height: 20%;
     padding: 10px;
+    margin-top: 10px;
+}
+
+.btnEnviar {
+    width: 50px;
+    /* Ancho fijo */
+    height: 50px;
+    /* Alto fijo */
+    object-fit: cover;
+    /* Recorta la imagen para llenar el área sin distorsionarla */
+    border-radius: 50%;
+    /* Opcional: esto hará que las imágenes se vean redondeadas */
+}
+
+.texto {
+    flex-direction: column;
+    font-size: x-small;
+
+}
+
+.leyenda {
+    padding: 0px;
+    margin: 0px;
+
 }

@@ -1,0 +1,30 @@
+<body>
+    <div class="container" *ngIf="usuario">
+        <div class="imagen">
+            <img class="img" [src]="usuario.img1" alt="imagen de perfil">
+        </div>
+        <div class="data">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Nombre: {{usuario.nombre}}</li>
+                <li class="list-group-item">Apellido: {{usuario.apellido}}</li>
+                <li class="list-group-item">Email: {{usuario.email}}</li>
+                <li class="list-group-item">DNI: {{usuario.dni}}</li>
+                <li class="list-group-item">Edad: {{usuario.edad}}</li>
+                <li class="list-group-item">Especialidades:
+                    <ul>
+                        <li *ngFor="let especialidad of usuario.especialidad">{{especialidad}}</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 5px;">
+        <div class="tabla">
+            <app-especialista-horarios [especialidades]="usuario.especialidad"
+                [email]="usuario.email"></app-especialista-horarios>
+        </div>
+
+    </div>
+
+</body>

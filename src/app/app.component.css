@@ -62,6 +62,19 @@ header {
 
 }
 
+.user-photo {
+    width: 30px;
+    /* Ajusta el tamaño según tus necesidades */
+    height: 30px;
+    /* Ajusta el tamaño según tus necesidades */
+    border-radius: 50%;
+    /* Hace la imagen circular */
+    margin-right: 8px;
+    /* Espacio entre la imagen y el nombre */
+    object-fit: cover;
+    /* Asegura que la imagen se ajuste sin deformarse */
+}
+
 @media (max-width: 775px) {
     header {
         align-items: flex-start;

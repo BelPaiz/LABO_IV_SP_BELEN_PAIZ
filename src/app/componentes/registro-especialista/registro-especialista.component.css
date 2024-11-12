@@ -23,7 +23,7 @@ body {
             255,
             255,
             0.5);
-    padding: 5px 45px;
+    padding: 10px 45px;
 }
 
 form input {
@@ -56,6 +56,7 @@ form input {
             255,
             255,
             0.8);
+    margin-top: 0px;
 }
 
 .form-sesion input {
@@ -79,4 +80,9 @@ form input {
 
 .text-danger {
     font-family: 'Poppins-Light';
+}
+
+re-captcha.is-invalid>div {
+    border: 1px solid #dc3545 !important;
+    border-radius: 0.2rem;
 }

@@ -14,48 +14,91 @@ body {
 
 .container {
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    height: 95%;
+    width: 100%;
+    margin: 5px 5px 5px;
+}
+
+.container-1 {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    text-align: center;
+    height: 90%;
+    width: 30%;
+    background-color: rgba(255,
+            255,
+            255,
+            0.5);
+
 }
 
+.container-tipos,
 .container-altas {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    height: 50%;
+    flex-direction: column;
+    height: 40%;
     width: 90%;
+}
+
+.opcion-ver,
+.opcion {
+    height: 15%;
+    width: 100%;
+    margin: 0.3%;
+}
+
+.ver,
+.altas {
+    height: 80% !important;
+}
+
+h2 {
+    margin-bottom: 0%;
+    font-family: 'Poppins-Light';
+    font-size: x-large;
 }
 
 .container-usuarios {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30%;
-    width: 90%;
-}
-
-.opcion {
-    height: 80%;
-    width: 50%;
-    margin: 0.3%;
+    height: 90%;
+    width: 70%;
+    background-color: rgba(255,
+            255,
+            255,
+            0.5);
+    overflow-y: auto;
+    /* Habilita el desplazamiento vertical */
+    border: 1px solid #ccc;
+    /* Opcional: añade un borde para resaltar el contenedor */
 }
 
 .usuarios {
+    display: none;
     text-align: center;
-    height: 80%;
-    width: 100%;
+    max-height: 80%;
+    /* Limita la altura al tamaño del contenedor */
+    width: 90%;
     margin: 0.3%;
+}
+
+.mostrar {
+    display: block;
 }
 
 .btn-primary {
     height: 100%;
     width: 100%;
     font-family: 'Poppins-Light';
-    font-size: 50px;
+    font-size: 30px;
     /* padding-top: 13%; */
     background-color: #0ba3cd;
     text-align: center;
@@ -66,16 +109,6 @@ body {
     background-color: #006993;
     animation: bounce;
     animation-duration: 1s;
-}
-
-.altas {
-    padding-top: 20%;
-}
-
-.user {
-    padding-top: 5%;
-    background-color: #004173;
-    color: white;
 }
 
 .dos {

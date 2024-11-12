@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table th,
+.table td {
+    text-align: start;
+    /* Centra el contenido de las celdas */
+    padding: 8px;
+    border: 1px solid #ddd;
+    /* Bordes opcionales para separar celdas */
+}
+
+.hora {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}

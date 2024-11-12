@@ -27,21 +27,39 @@
 
             <div class="rellenos">
                 <div class="input-group-append" (click)="rellenarUsuario(0)">
-                    <span class="input-group-text" id="basic-addon2">
-                        <img class="btnEnviar" src="../../../assets/images/user_paciente.png" width="40px"
-                            alt="rellenar datos">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[0]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">PACIENTE</p>
                     </span>
                 </div>
                 <div class="input-group-append" (click)="rellenarUsuario(1)">
-                    <span class="input-group-text" id="basic-addon2">
-                        <img class="btnEnviar" src="../../../assets/images/user_admin.png" width="40px"
-                            alt="rellenar datos">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[1]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">PACIENTE</p>
                     </span>
                 </div>
                 <div class="input-group-append" (click)="rellenarUsuario(2)">
-                    <span class="input-group-text" id="basic-addon2">
-                        <img class="btnEnviar" src="../../../assets/images/user_esp.png" width="40px"
-                            alt="rellenar datos">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[2]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">PACIENTE</p>
+                    </span>
+                </div>
+                <div class="input-group-append" (click)="rellenarUsuario(3)">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[3]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">ESPECIALI</p>
+                    </span>
+                </div>
+                <div class="input-group-append" (click)="rellenarUsuario(4)">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[4]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">ESPECIALI</p>
+                    </span>
+                </div>
+                <div class="input-group-append" (click)="rellenarUsuario(5)">
+                    <span class="input-group-text texto" id="basic-addon2">
+                        <img class="btnEnviar" [src]="usuariosPred[5]" width="40px" alt="rellenar datos">
+                        <p class="leyenda">ADMIN</p>
                     </span>
                 </div>
             </div>

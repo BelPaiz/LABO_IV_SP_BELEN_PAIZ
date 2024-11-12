@@ -7,20 +7,30 @@ import { AuthenService } from '../../services/authen.service';
 import { confirmarCalveValidator } from '../../validadores/clave.validator';
 import { StorageService } from '../../services/storage.service';
 import { FirestoreService } from '../../services/firestore.service';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { recaptcha } from '../../../../enviromentCap';
+import { Usuario } from '../../models/usuario';
+
 
 @Component({
   selector: 'app-registro-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './registro-paciente.component.html',
-  styleUrl: './registro-paciente.component.css'
+  styleUrl: './registro-paciente.component.css',
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: { siteKey: recaptcha.siteKey } as RecaptchaSettings,
+    },
+  ],
 })
 export class RegistroPacienteComponent implements OnInit {
   constructor(private router: Router,
     public loader: LoaderService,
     private auth: AuthenService,
     private storage: StorageService,
-    private firestore: FirestoreService
+    private firestore: FirestoreService,
   ) { }
 
   form!: FormGroup;
@@ -30,6 +40,8 @@ export class RegistroPacienteComponent implements OnInit {
   img2: string = "";
   error: string = "";
   acept: string = "";
+  token: string | null = null;
+  paciente!: Usuario;
 
 
   ngOnInit(): void {
@@ -46,8 +58,16 @@ export class RegistroPacienteComponent implements OnInit {
       obra_social: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$'), Validators.minLength(3), Validators.maxLength(20)]),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'), Validators.maxLength(50)]),
       clave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
+      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      recaptcha: new FormControl('', Validators.required) // Campo reCAPTCHA
     }, confirmarCalveValidator());
+  }
+
+  onCaptchaResolved(token: string | null) {
+    if (token) {
+      this.token = token;
+      this.form.get('recaptcha')?.setValue(token);  // Asigna solo si el token no es null
+    }
   }
 
   uploadImage($event: any, imageNumber: number) {
@@ -77,6 +97,11 @@ export class RegistroPacienteComponent implements OnInit {
     let paciente = null;
     if (this.form.valid && this.img1 !== '' && this.img2 !== '') {
       try {
+        if (!this.token) {
+          this.error = "Por favor, complete el reCAPTCHA";
+          return;
+        }
+
         const dniYaExiste = await this.firestore.dniExiste(this.dni?.value);
         if (dniYaExiste) {
           this.error = "El DNI ya se encuentra registrado";
@@ -84,17 +109,20 @@ export class RegistroPacienteComponent implements OnInit {
         }
 
         const resp = await this.auth.Registro(this.email?.value, this.clave?.value);
-        paciente = {
+        this.paciente = {
           nombre: this.nombre?.value,
           apellido: this.apellido?.value,
           edad: this.edad?.value,
           dni: this.dni?.value,
           obra_social: this.obra_social?.value,
+          especialidad: null,
           email: this.email?.value,
           img1: this.img1,
-          img2: this.img2
+          img2: this.img2,
+          tipo: 'paciente',
+          habilitado: true
         }
-        this.firestore.nuevoPaciente(paciente);
+        this.firestore.nuevoUsuario(this.paciente);
         this.acept = "Se registro correctamente, por favor complete la validacion del email";
         setTimeout(() => {
           this.acept = " ";
@@ -120,6 +148,7 @@ export class RegistroPacienteComponent implements OnInit {
       this.error = "Verifique la correcta integración de todos los campos";
     }
   }
+
 
   limpiarError() {
     this.error = "";

@@ -36,8 +36,8 @@
 
 .spinner {
 
-    -webkit-animation: rotate-center 0.5s ease-in-out both;
-    animation: rotate-center 0.5s ease-in-out both;
+    /* -webkit-animation: rotate-center 0.5s ease-in-out both;
+    animation: rotate-center 0.5s ease-in-out both; */
     margin-top: 20px;
-    height: 30%;
+    height: 50%;
 }

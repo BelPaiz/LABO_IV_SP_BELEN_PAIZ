@@ -7,13 +7,22 @@ import { AuthenService } from '../../services/authen.service';
 import { StorageService } from '../../services/storage.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { confirmarCalveValidator } from '../../validadores/clave.validator';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { recaptcha } from '../../../../enviromentCap';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-registro-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
   templateUrl: './registro-admin.component.html',
-  styleUrl: './registro-admin.component.css'
+  styleUrl: './registro-admin.component.css',
+  providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: { siteKey: recaptcha.siteKey } as RecaptchaSettings,
+    },
+  ],
 })
 export class RegistroAdminComponent {
   constructor(private router: Router,
@@ -28,6 +37,8 @@ export class RegistroAdminComponent {
   img1: string = "";
   error: string = "";
   acept: string = "";
+  token: string | null = null;
+  usuario!: Usuario;
 
   ngOnInit(): void {
     this.loader.setLoader(true);
@@ -42,9 +53,17 @@ export class RegistroAdminComponent {
       dni: new FormControl('', [Validators.required, Validators.pattern('^\\d{7,8}$')]),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'), Validators.maxLength(50)]),
       clave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
+      repiteClave: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      recaptcha: new FormControl('', Validators.required) // Campo reCAPTCHA
     }, confirmarCalveValidator());
 
+  }
+
+  onCaptchaResolved(token: string | null) {
+    if (token) {
+      this.token = token;
+      this.form.get('recaptcha')?.setValue(token);  // Asigna solo si el token no es null
+    }
   }
 
   uploadImage($event: any) {
@@ -64,21 +83,30 @@ export class RegistroAdminComponent {
     let admin = null;
     if (this.form.valid && this.img1 !== '') {
       try {
+        if (!this.token) {
+          this.error = "Por favor, complete el reCAPTCHA";
+          return;
+        }
         const dniYaExiste = await this.firestore.dniExiste(this.dni?.value);
         if (dniYaExiste) {
           this.error = "El DNI ya se encuentra registrado";
           return;
         }
         const resp = await this.auth.Registro(this.email?.value, this.clave?.value);
-        admin = {
+        this.usuario = {
           nombre: this.nombre?.value,
           apellido: this.apellido?.value,
           edad: this.edad?.value,
           dni: this.dni?.value,
+          obra_social: null,
+          especialidad: null,
           email: this.email?.value,
           img1: this.img1,
+          img2: null,
+          tipo: 'admin',
+          habilitado: true
         }
-        this.firestore.nuevoAdmin(admin);
+        this.firestore.nuevoUsuario(this.usuario);
         this.acept = "Se registro correctamente, por favor complete la validacion del email";
         setTimeout(() => {
           this.acept = " ";

@@ -1,31 +1,58 @@
 <body>
     <div class="container">
-        <div class="container-altas">
+        <div class="container-1">
+            <h2>Seleccione: </h2>
+            <div class="container-tipos">
 
-            <div class="card-body opcion">
-                <p class="btn btn-primary altas" routerLink="/registro_paciente" routerLinkActive="active-route">Alta de
-                    paciente</p>
+                <div class="card-body opcion-ver">
+                    <p class="btn btn-primary ver" (click)="seleccionarVer(1)">Lista pacientes</p>
+                </div>
+
+                <div class="card-body opcion-ver">
+                    <p class="btn btn-primary ver dos" (click)="seleccionarVer(2)">Lista especialistas</p>
+                </div>
+
+                <div class="card-body opcion-ver">
+                    <p class="btn btn-primary ver tres" (click)="seleccionarVer(3)">Lista administradores</p>
+                </div>
+
             </div>
+            <div class="container-altas">
 
-            <div class="card-body opcion">
-                <p class="btn btn-primary altas dos" routerLink="/registro_especialista"
-                    routerLinkActive="active-route">
-                    Alta
-                    de especialista</p>
+                <div class="card-body opcion">
+                    <p class="btn btn-primary altas" routerLink="/registro_paciente" routerLinkActive="active-route">
+                        Alta de
+                        paciente</p>
+                </div>
+
+                <div class="card-body opcion">
+                    <p class="btn btn-primary altas dos" routerLink="/registro_especialista"
+                        routerLinkActive="active-route">
+                        Alta
+                        de especialista</p>
+                </div>
+
+                <div class="card-body opcion">
+                    <p class="btn btn-primary altas tres" routerLink="/registro-admin" routerLinkActive="active-route">
+                        Alta
+                        de
+                        administrador
+                    </p>
+                </div>
+
             </div>
-
-            <div class="card-body opcion">
-                <p class="btn btn-primary altas tres" routerLink="/registro-admin" routerLinkActive="active-route">Alta
-                    de
-                    administrador
-                </p>
-            </div>
-
         </div>
+
+
         <div class="container-usuarios">
-            <div class="card-body usuarios">
-                <p class="btn btn-primary user" routerLink="/registro-admin" routerLinkActive="active-route">Usuarios
-                </p>
+            <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 1}">
+                <app-listado-pacientes></app-listado-pacientes>
+            </div>
+            <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 2}">
+                <app-listado-especialistas></app-listado-especialistas>
+            </div>
+            <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 3}">
+                <app-listado-admin></app-listado-admin>
             </div>
         </div>
     </div>

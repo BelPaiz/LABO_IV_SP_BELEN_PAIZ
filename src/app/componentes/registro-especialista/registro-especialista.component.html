@@ -41,6 +41,19 @@
                     </div>
                     <img class="logo" src="../../../assets/images/logo-clinica.png" alt="">
 
+                    <div class="row mt-3">
+                        <div class="col-sm-12 mb-2">
+                            <re-captcha formControlName="recaptcha" (resolved)="onCaptchaResolved($event)" required
+                                class="form-control"
+                                [class.is-invalid]="form.get('recaptcha')?.invalid && (form.get('recaptcha')?.dirty || form.get('recaptcha')?.touched)">
+                            </re-captcha>
+                            <div *ngIf="form.get('recaptcha')?.invalid && (form.get('recaptcha')?.dirty || form.get('recaptcha')?.touched)"
+                                class="invalid-feedback">
+                                <div *ngIf="form.get('recaptcha')?.errors?.['required']">This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-md-7 col-lg-8 container1">
@@ -87,22 +100,26 @@
 
                             <label for="especialidad" class="form-label">Especialidad</label>
 
-                            <input type="text" formControlName="especialidad" class="form-control" id="especialidad"
-                                placeholder="Si no encuentra su especialidad entre las opciones ingresela manualmente"
-                                (click)="limpiarError()" style="margin-bottom: 10px;">
+                            <input type="text" formControlName="especialidadTexto" class="form-control"
+                                id="especialidad" placeholder="Seleccione especialidades" style="margin-bottom: 10px;"
+                                readonly>
 
-                            <select class="form-select" (change)="actualizarEspecialidad($event)">
-                                <option value="">Seleccione especialidad...</option>
-                                <option *ngFor="let seleccion of especialidades" [value]="seleccion">
-                                    {{seleccion}}</option>
+                            <select class="form-select" multiple (change)="actualizarEspecialidad($event)">
+                                <option *ngFor="let seleccion of especialidades" [value]="seleccion.nombre">
+                                    {{seleccion.nombre}}</option>
                             </select>
 
-                            <ng-container *ngIf="especialidad?.hasError('required')">
-                                <small class="text-danger">Este campo es requerido</small>
-                            </ng-container>
+                            <div class="input-group mb-3" style=" margin-top: 10px;">
+                                <input type="text" class="form-control"
+                                    placeholder="Si no encuentra su especialidad entre las opciones ingresela aqui"
+                                    [(ngModel)]="nuevaEspecialidad" [ngModelOptions]="{standalone: true}">
+                                <button class="btn btn-outline-secondary btn-primary" type="button" id="button-addon2"
+                                    (click)="crearEspecialidad()" style=" color: white;">Agregar</button>
+                            </div>
+
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3" style=" margin-top: 0px;">
                             <label for="formFile1" class="form-label">Seleccione imagen de perfil</label>
                             <input class="form-control" type="file" id="formFile1" (change)="uploadImage($event)"
                                 (click)="limpiarError()">

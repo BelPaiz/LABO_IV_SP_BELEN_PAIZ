@@ -22,13 +22,14 @@ export class AuthenService {
       }
 
 
-      this.evitarActualizacion = false;
+      // this.evitarActualizacion = false;
     });
   }
 
   async Registro(email: string, password: string): Promise<User | null> {
     const usuarioAntes = this.getUsuario();
     try {
+      this.evitarActualizacion = true;
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
 
       if (this.auth.currentUser) {
@@ -37,20 +38,19 @@ export class AuthenService {
 
 
       if (usuarioAntes) {
-        this.evitarActualizacion = true;
+
         await signOut(this.auth);
+        this.evitarActualizacion = false;
         const usuarioAhora = await updateCurrentUser(this.auth, usuarioAntes);
 
         this.authState.next(usuarioAntes.email);
 
-        console.log(usuarioAntes);
-        console.log(this.getUsuario());
       }
       else {
+        this.evitarActualizacion = false;
         await signOut(this.auth);
       }
-      console.log(this.getUsuario());
-
+      this.evitarActualizacion = false;
       return userCredential.user;
 
     } catch (error) {
