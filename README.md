@@ -22,10 +22,10 @@ Este proyecto utiliza las siguientes tecnologías:
 |ADMINISTRADOR  | El alta de un usuario administrador solo puede ser realizada por otro usuario administrador,  |Alta de usuarios ( administradores, especialistas,         | 
 |               | posteriormente el nuevo usuario deberá validar su email, mediante el enlace que le llegrá     |pacientes). Alta de turnos, visualización de turnos,       |
 |               | en el email de verificación.                                                                  | visualización y listados de usuarios                      |
-|---------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+|               |                                                                                               |                                                           |
 |ESPECIALISTA   | Crear una cuenta en /registro_especialista, verificar el email, luego un usuario admin        |Mantener actualizada su disponibilidad horaria.            |
 |               | deberá habilitar al especialista desde el listado de usuarios especialistas.                  |Aceptar, rechazar, cancelar, finalizar los turnos          |
-|---------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+|               |                                                                                               |                                                           |
 |PACIENTE       |Crear una cuenta en /registro_paciente y verificar su email.                                   | Solicitar turnos. Visualización de turnos en apartado     |
 |               |                                                                                               |  /ver-turnos-paciente                                     |
 
@@ -48,15 +48,21 @@ Este proyecto utiliza las siguientes tecnologías:
 | `/ver-turnos-paciente`     | Vista de turnos para el paciente               | Pacientes                  |
 | `/ver-turnos-especialista` | Vista de turnos para el especialista           | Especialistas              |
 
+## registro
 ![registro](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20175517.png "Antesala al formulario del registro")
 
+## registro_paciente
 ![registro_paciente](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20180053.png "Formulario de registro de paciente")
 
+## admin-usuarios
 ![admin-usuarios](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20180248.png "Gestión de usuarios / administrador")
 
+## solicitar-turno
 ![solicitar-turno](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20180405.png "Solicitud de turnos / Pacientes y Administradores")
 
+## ver-turnos-admin
 ![ver-turnos-admin](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20180516.png "Visualización de turnos / Administrador")
 
+## ver-turnos-paciente
 ![ver-turnos-paciente](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20180706.png "Actualizacion de estado de turno / Especialista")
 
