@@ -1,0 +1,44 @@
+<body>
+    <div class="container">
+        <div class="container-texto">
+            <h6>Seleccione <br> especialidad</h6>
+            <img src="../../../assets/images/flechita.png" alt="flecha">
+        </div>
+        <div class="container-hijo">
+            <app-seleccion-especialidad (especialidad_elegida)="recibirEspecialidad($event)"
+                #especialidad_Seleccion></app-seleccion-especialidad>
+        </div>
+    </div>
+    <div class="container">
+        <div class="container-texto">
+            <h6>Seleccione <br> especialista</h6>
+            <img src="../../../assets/images/flechita.png" alt="flecha">
+        </div>
+        <div class="container-hijo">
+            <app-seleccion-especialista (especialista_elegido)="recibirEspecialista($event)" #medico_seleccion
+                [especialidad_elegida]="especialidadElegida"></app-seleccion-especialista>
+        </div>
+    </div>
+    <div class="container">
+        <div class="container-texto">
+            <h6>Seleccione <br> día</h6>
+            <img src="../../../assets/images/flechita.png" alt="flecha">
+        </div>
+        <div class="container-hijo-botones">
+            <app-seleccion-dia [especialista_elegido]="medicoElegido" (disponibles)="recibirDisponible($event)"
+                #dia_seleccion (fecha_seleccionada)="recibirFecha($event)" #fecha_seleccion></app-seleccion-dia>
+        </div>
+    </div>
+    <div class="container">
+        <div class="container-texto">
+            <h6>Seleccione <br> hora</h6>
+            <img src="../../../assets/images/flechita.png" alt="flecha">
+        </div>
+        <div class="container-hijo-botones">
+            <app-seleccion-hora [disponibles]="disponible_dia" [fecha_elegida]="fecha_selec"
+                [especialista_elegido]="medicoElegido" [especialidad_elegida]="especialidadElegida">
+            </app-seleccion-hora>
+        </div>
+    </div>
+
+</body>

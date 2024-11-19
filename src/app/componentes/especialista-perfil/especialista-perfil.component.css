@@ -45,7 +45,17 @@ body {
 
 .data {
     flex: 1;
+    border: 10px black;
     /* Ocupa el espacio restante al lado de la imagen */
+}
+
+.tabla {
+    overflow-y: auto;
+}
+
+.hora {
+    font-family: 'Poppins-Light';
+    font-size: medium;
 }
 
 h6 {

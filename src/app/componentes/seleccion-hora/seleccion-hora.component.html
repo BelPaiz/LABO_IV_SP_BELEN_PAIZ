@@ -1,0 +1,13 @@
+<div class="container">
+
+    <div class="container-img" *ngFor="let hora of disponibilidad.disponible" [ngClass]="{'ocultar': ocultar}">
+        <button type="button" class="btn btn-info boton" (click)="seleccionTurno(hora)">{{hora |
+            formatoHora}}</button>
+    </div>
+    <div class="mensaje" [ngClass]="{'mostrar': mostrar}">
+        <div *ngFor="let msj of mensaje">
+            <p>{{msj}}</p>
+        </div>
+    </div>
+
+</div>

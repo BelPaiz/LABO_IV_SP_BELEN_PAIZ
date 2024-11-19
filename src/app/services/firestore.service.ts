@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, Firestore, getDocs, limit, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDocs, limit, orderBy, query, updateDoc, where } from '@angular/fire/firestore';
 import { empty, Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Disponibilidad } from '../models/disponibilidad_horaria';
+import { Turno } from '../models/turno';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore) { }
 
+  // LOGS
   loginRegister(user: string) {
     let col = collection(this.firestore, 'sesiones');
     addDoc(col, { fecha: new Date(), usuario: user })
@@ -27,6 +29,7 @@ export class FirestoreService {
     })
   }
 
+  // GESTION USUARIOS
   nuevoUsuario(usuario: Usuario) {
     let col = collection(this.firestore, 'usuarios');
     addDoc(col, {
@@ -47,6 +50,29 @@ export class FirestoreService {
     return collectionData(tipoQuery);
   }
 
+  async dniExiste(dni: string): Promise<boolean> {
+    const col = collection(this.firestore, 'usuarios');
+    const fetchQuery = query(
+      col,
+      where("dni", "==", dni),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(fetchQuery);
+    return !querySnapshot.empty;
+  }
+
+  async getUsuarioEmail(email: string) {
+    let col = collection(this.firestore, 'usuarios');
+    const fetchQuery = query(
+      col,
+      where("email", "==", email),
+      limit(1),
+    );
+    const querySnapshot = await getDocs(fetchQuery);
+    return querySnapshot.docs[0].data();
+  }
+
+  // ESPECIALISTAS HABILITACION MODIFICACION
   async getHabilitadoMail(email: string) {
     let col = collection(this.firestore, 'usuarios');
     const fetchQuery = query(
@@ -85,17 +111,23 @@ export class FirestoreService {
     return querySnapshot.docs[0].data();
   }
 
-  async dniExiste(dni: string): Promise<boolean> {
+  async obtenerUsuariosPorEspecialidad(especialidad_Seleccionada: string) {
     const col = collection(this.firestore, 'usuarios');
-    const fetchQuery = query(
-      col,
-      where("dni", "==", dni),
-      limit(1)
-    );
-    const querySnapshot = await getDocs(fetchQuery);
-    return !querySnapshot.empty;
+
+    // Crear una consulta con array-contains para buscar usuarios que tengan especialidad_Seleccionada en su array
+    const q = query(col, where('especialidad', 'array-contains', especialidad_Seleccionada));
+
+    // Ejecutar la consulta y obtener los documentos
+    const querySnapshot = await getDocs(q);
+
+    // Mapear los documentos a objetos Usuario
+    const usuarios = querySnapshot.docs.map(doc => doc.data());
+
+    return usuarios;
   }
 
+
+  // ESPECIALIDADES
   getEspecialidades(): Observable<any[]> {
     const col = collection(this.firestore, 'especialidades');
     const q = query(col, orderBy('nombre'));
@@ -107,22 +139,14 @@ export class FirestoreService {
     addDoc(col, { nombre: especialidad });
   }
 
-  async getUsuarioEmail(email: string) {
-    let col = collection(this.firestore, 'usuarios');
-    const fetchQuery = query(
-      col,
-      where("email", "==", email),
-      limit(1),
-    );
-    const querySnapshot = await getDocs(fetchQuery);
-    return querySnapshot.docs[0].data();
-  }
 
+  // DISPONIBILIDAD
   getDisponibilidadPorMail(email: string): Observable<Disponibilidad[]> {
     const col = collection(this.firestore, 'disponibilidad');
     const tipoQuery = query(col, where('email', '==', email));
     return collectionData(tipoQuery);
   }
+
   // getDisponibilidadPorEspecialidad(especialidad: string): Observable<Disponibilidad[]> {
   //   const col = collection(this.firestore, 'disponibilidad');
   //   const tipoQuery = query(col, where('especialidad', '==', especialidad));
@@ -134,7 +158,7 @@ export class FirestoreService {
     const fetchQuery = query(
       col,
       where("email", "==", disponibilidad.email),
-      where("dia", "==", disponibilidad.dia),
+      where("fecha", "==", disponibilidad.fecha),
       limit(1)
     );
 
@@ -151,12 +175,12 @@ export class FirestoreService {
   setDisponibilidad(disponibilidad: Disponibilidad) {
     let col = collection(this.firestore, 'disponibilidad');
     addDoc(col, {
-      email: disponibilidad.email, especialidad: disponibilidad.especialidad, dia: disponibilidad.dia,
+      email: disponibilidad.email, especialidad: disponibilidad.especialidad, dia: disponibilidad.dia, fecha: disponibilidad.fecha,
       disponible: disponibilidad.disponible
     });
   }
 
-  async updateDisponibilidad(id: string, data: { disponible: number[]; }) {
+  async updateDisponibilidad(id: string, data: { disponible: string[]; }) {
     const docRef = doc(this.firestore, `disponibilidad/${id}`);
     try {
       await updateDoc(docRef, data);
@@ -165,8 +189,75 @@ export class FirestoreService {
     }
   }
 
+  // TURNOS
+  nuevoTurno(turno: Turno): Promise<DocumentReference> {
+    let col = collection(this.firestore, 'turnos');
+    return addDoc(col, {
+      email_paciente: turno.email_paciente,
+      email_especialista: turno.email_especialista,
+      especialidad: turno.especialidad,
+      dia: turno.dia,
+      fecha: turno.fecha,
+      hora: turno.hora,
+      estado: 'pendiente',
+      comentario: null,
+      encuesta: null,
+      calificacion: null
+    });
+  }
 
+  getTurnoPorDato(dato: string, data: string): Observable<Turno[]> {
+    const col = collection(this.firestore, 'turnos');
+    const tipoQuery = query(col, where(dato, '==', data));
+    return collectionData(tipoQuery);
+  }
 
+  getTurnosAll(): Observable<any[]> {
+    const col = collection(this.firestore, 'turnos');
+    return collectionData(col);
+  }
+  getTurnosAllID(): Observable<any[]> {
+    const col = collection(this.firestore, 'turnos');
+    return collectionData(col, { idField: 'id' }); // Agrega el ID como un campo llamado 'id'
+  }
+  getTurnosByEmail(email: string): Observable<any[]> {
+    const col = collection(this.firestore, 'turnos');
+    const q = query(col, where('email_paciente', '==', email)); // Filtra por el campo 'email'
+    return collectionData(q, { idField: 'id' }); // Agrega el ID como un campo llamado 'id'
+  }
+
+  getTurnosByEmailEspecialista(email: string): Observable<any[]> {
+    const col = collection(this.firestore, 'turnos');
+    const q = query(col, where('email_especialista', '==', email)); // Filtra por el campo 'email'
+    return collectionData(q, { idField: 'id' }); // Agrega el ID como un campo llamado 'id'
+  }
+
+  async updateTurnoComentarioEstado(id: string, data: { comentario?: string; estado?: string }) {
+    const turnoDocRef = doc(this.firestore, `turnos/${id}`);
+    try {
+      await updateDoc(turnoDocRef, data);
+    } catch (error) {
+      console.error('Error al actualizar el turno: ', error);
+    }
+  }
+
+  async updateTurnoCalificacion(id: string, data: { calificacion?: string }) {
+    const turnoDocRef = doc(this.firestore, `turnos/${id}`);
+    try {
+      await updateDoc(turnoDocRef, data);
+    } catch (error) {
+      console.error('Error al actualizar el turno: ', error);
+    }
+  }
+
+  async updateTurnoEncuesta(id: string, data: { encuesta?: string[] }) {
+    const turnoDocRef = doc(this.firestore, `turnos/${id}`);
+    try {
+      await updateDoc(turnoDocRef, data);
+    } catch (error) {
+      console.error('Error al actualizar el turno: ', error);
+    }
+  }
 
 }
 

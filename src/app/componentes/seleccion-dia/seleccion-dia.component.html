@@ -1,0 +1,13 @@
+<div class="container">
+    <ng-container *ngIf="fechas[0].fecha !== ''; else noEspecialistas">
+        <div class="container-img" *ngFor="let dia of fechas">
+            <button type="button" class="btn btn-info boton" (click)="recuperarDia(dia.fecha)">{{dia.fecha |
+                formatoFecha}}</button>
+        </div>
+    </ng-container>
+    <ng-template #noEspecialistas>
+        <div *ngIf="espec_selec" class="mensaje-no-especialistas">
+            <h3>No hay turnos disponibles</h3>
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.container-img {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+img:hover {
+    animation: swing;
+    animation-duration: 2s;
+    transform: scale(1.2);
+}
+
+img:active {
+    transform: scale(0.7);
+}

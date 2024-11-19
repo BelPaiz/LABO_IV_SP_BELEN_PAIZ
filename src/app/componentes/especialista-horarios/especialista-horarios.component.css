@@ -27,3 +27,9 @@ table {
     align-items: center;
     flex-direction: row;
 }
+
+p {
+    font-family: 'Poppins-Light';
+    font-size: medium;
+    color: red;
+}

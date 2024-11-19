@@ -58,6 +58,7 @@ header {
 
 .btn-outline-primary:hover {
     background: #5d2f82;
+
     border-color: blue;
 
 }
@@ -173,7 +174,9 @@ header {
 }
 
 .user-button:hover {
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
+    background: blue;
+    color: white;
 }
 
 .dropdown-menu {

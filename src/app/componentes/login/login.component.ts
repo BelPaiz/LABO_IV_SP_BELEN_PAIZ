@@ -57,7 +57,6 @@ export class LoginComponent {
                 this.usuarioLogueado = user.email;
                 this.firestore.loginRegister(this.usuarioLogueado);
                 this.ocultar = false;
-                this.loader.setLoader(false);
                 if (this.tipoUsuario == 'admin') {
                   this.router.navigate(['/admin-usuarios']);
                   this.loader.setLoader(false);
@@ -66,16 +65,22 @@ export class LoginComponent {
                     this.router.navigate(['/perfil-especialista']);
                     this.loader.setLoader(false);
                   } else {
-                    this.router.navigate(['/home']);
-                    this.loader.setLoader(false);
+                    if (this.tipoUsuario == 'paciente') {
+                      this.router.navigate(['/perfil-paciente']);
+                      this.loader.setLoader(false);
+                    }
+                    else {
+                      this.router.navigate(['/home']);
+                      this.loader.setLoader(false);
+                    }
                   }
                 }
               }
             }
-          }
-          else {
-            this.error = "Debes verificar tu correo electrónico antes de iniciar sesión.";
-            this.loader.setLoader(false);
+            else {
+              this.error = "Debes verificar tu correo electrónico antes de iniciar sesión.";
+              this.loader.setLoader(false);
+            }
           }
         }
       }).catch((e) => {

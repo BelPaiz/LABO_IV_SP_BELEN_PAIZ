@@ -2,5 +2,6 @@ export interface Disponibilidad {
     email: string,
     especialidad: string[],
     dia: string,
-    disponible: number[],
+    fecha: string,
+    disponible: string[],
 }

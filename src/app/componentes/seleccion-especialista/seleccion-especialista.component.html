@@ -1,0 +1,13 @@
+<div class="container">
+    <ng-container *ngIf="especialistas.length > 0; else noEspecialistas">
+        <div class="container-img" *ngFor="let espec of especialistas">
+            <img class="imagen" [src]="espec.img1" alt="Card image cap" (click)="seleccion(espec.email)">
+            <p class="nombre">{{espec.nombre}} {{espec.apellido}}</p>
+        </div>
+    </ng-container>
+    <ng-template #noEspecialistas>
+        <div *ngIf="espec_selec" class="mensaje-no-especialistas">
+            <h3>No hay especialistas disponibles para la especialidad seleccionada</h3>
+        </div>
+    </ng-template>
+</div>

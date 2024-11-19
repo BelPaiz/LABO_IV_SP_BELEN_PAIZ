@@ -1,0 +1,5 @@
+<div class="container">
+    <div class="container-img" *ngFor="let espec of especialImagen">
+        <img class="imagen" [src]="espec.src" alt="Card image cap" (click)="seleccion(espec.nombre)">
+    </div>
+</div>

@@ -1,0 +1,252 @@
+<body>
+    <div class="container">
+        <div class="container-buscador">
+            <input type="search" class="form-control ds-input buscador" id="search-input"
+                placeholder="Buscar en turnos..." aria-label="Search for..." autocomplete="off" spellcheck="false"
+                role="combobox" aria-autocomplete="list" aria-expanded="false"
+                aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;"
+                (input)="ingresoCaracter($event)">
+        </div>
+        <div>
+            <h6 class="info">{{mensaje}}</h6>
+        </div>
+
+
+        <div class="container-listado">
+            <div class="container-turno" *ngFor="let turno of turnosFiltrados">
+                <form>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text desc"><span><img src="../../../assets/images/estrella.png"
+                                        alt="calif" width="20px">{{turno.calificacion}}</span></div>
+                        </div>
+                        <input type="text" class="form-control dato" id="inlineFormInputGroupUsername2"
+                            value="{{turno.especialidad}}" readonly>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text desc"><span><img src="../../../assets/images/fecha.png"
+                                        alt="calif" width="20px"></span></div>
+                        </div>
+                        <input type="text" class="form-control dato" id="inlineFormInputGroupUsername2"
+                            value="{{turno.dia}} {{turno.fecha}}" readonly>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text desc"><span><img src="../../../assets/images/hora.png"
+                                        alt="calif" width="20px"></span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control dato" id="inlineFormInputGroupUsername2"
+                            value="{{turno.hora}}" readonly>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text desc"><span class="tex">Paciente: </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control dato" id="inlineFormInputGroupUsername2"
+                            value="{{turno.paciente}}" readonly>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text desc"><span class="tex">Especialista: </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control dato" id="inlineFormInputGroupUsername2"
+                            value="{{turno.especialista}}" readonly>
+                    </div>
+                    <!-- botones -->
+                    <div class="container-botones">
+                        <button type="button" *ngIf="turno.estado === 'pendiente'" class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">PENDIENTE</button>
+
+                        <button type="button" *ngIf="turno.estado === 'cancelado'" class="btn btn-danger"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">CANCELADO</button>
+
+                        <button type="button" *ngIf="turno.estado === 'aceptado'" class="btn btn-success"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">ACEPTADO</button>
+
+                        <button type="button" *ngIf="turno.estado === 'rechazado'" class="btn btn-warning"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">RECHAZADO</button>
+
+                        <button type="button" *ngIf="turno.estado === 'realizado'" class="btn btn-info"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">REALIZADO</button>
+
+                        <button type="button" class="btn-outline-primary" data-bs-toggle="modal"
+                            *ngIf="turno.comentario || turno.comentario !== ''"
+                            [attr.data-bs-target]="'#modalComentario-' + turno.id">COMENTARIO</button>
+
+                        <button type="button"
+                            *ngIf="turno.estado === 'realizado' && turno.comentario && turno.encuesta?.length === 0"
+                            class="btn btn-primary" data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalEncuesta-' + turno.id">ENCUESTA</button>
+
+                        <button type="button"
+                            *ngIf="turno.estado === 'realizado' && turno.calificacion === null || turno.calificacion === ''"
+                            class="btn btn-primary" data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalCalificar-' + turno.id">CALIFICAR</button>
+                    </div>
+                </form>
+                <!-- Modal VER ESTADO -->
+
+                <div class="modal fade" [attr.id]="'modalVerEstado-' + turno.id" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 fuente" id="exampleModalLabel">Estado actual:
+                                    {{turno.estado}}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body"
+                                *ngIf="turno.estado !== 'realizado' && turno.estado !== 'cancelado'">
+                                <div class="mb-3">
+                                    <textarea class="form-control fuente" id="message-text"
+                                        [(ngModel)]="comentario"></textarea>
+                                </div>
+                                <div class="cancelar" (click)="guardar_estado(comentario,turno.id)"
+                                    data-bs-dismiss="modal">
+                                    <span><img src="../../../assets/images/cancelar.png" alt="" width="30px"></span>
+                                    <label>CANCELAR</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary fuente"
+                                    data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal COMENTARIO -->
+                <div class="modal fade" [attr.id]="'modalComentario-' + turno.id" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 fuente" id="exampleModalLabel">Comentario - Reseña</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <textarea class="form-control fuente" id="message-text"
+                                            readonly>{{turno.comentario}}</textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary fuente"
+                                    data-bs-dismiss="modal">Cerrar</button>
+                                <!-- <button type="button" class="btn btn-primary fuente">Actualizar comentario</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal CALIFICACION -->
+                <div class="modal fade" [attr.id]="'modalCalificar-' + turno.id" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 fuente" id="exampleModalLabel">Calificar atencion</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body calif-body">
+                                <div class="star-container">
+                                    <mat-icon *ngFor="let star of stars; let i = index" (click)="rate(i + 1)"
+                                        [class.filled]="i < rating">
+                                        star
+                                    </mat-icon>
+                                    <span class="rating-text">{{ rating }} / 5</span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary fuente"
+                                    data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary fuente" data-bs-dismiss="modal"
+                                    (click)="guardarCalificacion(turno.id)">Calificar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal ENCUESTA -->
+                <div class="modal fade" [attr.id]="'modalEncuesta-' + turno.id" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 fuente" id="exampleModalLabel">Encuesta de satisfacción</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">¿Cuanto tiempo
+                                            estuvo en la sala de espera?: </span>
+                                    </div>
+                                    <input type="number" class="form-control" [(ngModel)]="encuesta1"
+                                        aria-label="Default" aria-describedby="inputGroup-sizing-default" min="0"
+                                        max="60" step="5" placeholder="Ingrese cantidad de minutos...">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">¿Encontro las
+                                            instalaciones en condiciones óptimas?: </span>
+                                    </div>
+                                    <div class="inputGroup-sizing-default radio">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="inlineRadio1" value="si" [(ngModel)]="encuesta2">
+                                            <label class="form-check-label" for="inlineRadio1">Sí</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="inlineRadio2" value="no" [(ngModel)]="encuesta2">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01">¿Recomendaría nuestros
+                                            servicios?</label>
+                                    </div>
+                                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="encuesta3">
+                                        <option selected>Seleccione...</option>
+                                        <option value="si">Sí</option>
+                                        <option value="no">No</option>
+                                        <option value="tal vez">Tal vez</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary fuente"
+                                    data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary fuente" data-bs-dismiss="modal"
+                                    (click)="guardarEncuesta(turno.id)">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>

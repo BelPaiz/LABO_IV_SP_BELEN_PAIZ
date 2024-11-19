@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
   mostrar: boolean = false;
   mostrarEsp: boolean = false;
   mostrarPac: boolean = false;
+  mostrarSolTurP: boolean = false;
+  mostrarSolTurA: boolean = false;
 
   private subscription: Subscription = new Subscription();
   nombre_usuario: string = "";
@@ -59,6 +61,9 @@ export class AppComponent implements OnInit {
           this.mostrar = this.tipoUsuario === 'admin';
           this.mostrarEsp = this.tipoUsuario === 'especialista';
           this.mostrarPac = this.tipoUsuario === 'paciente';
+          this.mostrarSolTurP = this.tipoUsuario === 'paciente';
+          this.mostrarSolTurA = this.tipoUsuario === 'admin';
+
           this.usuario_completo = `${this.user['nombre']} ${this.user['apellido']}`;
         } else {
           // Usuario no autenticado o no encontrado en Firestore
@@ -83,7 +88,11 @@ export class AppComponent implements OnInit {
   cerrarSesion() {
     this.auth.CerrarSesion().then(() => {
       this.usuario_completo = "";
-      this.router.navigate(['/login']);
+      this.mostrar = false;
+      this.mostrarEsp = false;
+      this.mostrarPac = false;
+      this.mostrarSolTurP = false;
+      this.router.navigate(['/home']);
     })
       .catch(e => console.log(e));
   }
@@ -95,7 +104,6 @@ export class AppComponent implements OnInit {
   async traerUsuario(email: string) {
     try {
       const res = await this.firestore.getHabilitadoMail(email);
-      // this.tipoUsuario = res['tipo'];
       this.user = res;
 
     } catch (e) {
