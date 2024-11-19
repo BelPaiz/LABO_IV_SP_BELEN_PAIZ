@@ -1,6 +1,6 @@
 # Clinica Sana Sana
 
- [Angular Web App:](https://sana-sana-app.web.app/)
+ [sana-sana-app.web.app](https://sana-sana-app.web.app/)
 
  ![Pagina de inicio](./src/assets/images/readme/Captura%20de%20pantalla%202024-11-19%20172532.png)
 
