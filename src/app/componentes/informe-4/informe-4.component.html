@@ -13,7 +13,7 @@
         <div class="mensaje" *ngIf="mensaje" style="color: red;">
             {{ mensaje }}
         </div>
-        <div class="container-grafico" id="contenido">
+        <div class="container-grafico" id="contenido" [@myAnimation]="isOpen() ? 'open': 'closed'">
             <h2>Turnos {{estadoSolicitado}}s por médico en un lapso de tiempo</h2>
             <canvas id="piechart"></canvas>
         </div>

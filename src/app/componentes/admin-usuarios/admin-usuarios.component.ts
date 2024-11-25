@@ -12,9 +12,10 @@ import { FirestoreService } from '../../services/firestore.service';
 @Component({
   selector: 'app-admin-usuarios',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ListadoPacientesComponent, ListadoEspecialistasComponent, ListadoAdminComponent, CommonModule],
+  imports: [RouterLink, RouterLinkActive, ListadoPacientesComponent, ListadoEspecialistasComponent, ListadoAdminComponent, CommonModule],
   templateUrl: './admin-usuarios.component.html',
-  styleUrl: './admin-usuarios.component.css'
+  styleUrl: './admin-usuarios.component.css',
+  animations: []
 })
 export class AdminUsuariosComponent {
 

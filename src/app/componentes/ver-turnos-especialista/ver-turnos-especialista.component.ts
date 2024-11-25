@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FirestoreService } from '../../services/firestore.service';
 import { of, Subscription, switchMap } from 'rxjs';
 import { Turno } from '../../models/turno';
@@ -8,13 +8,28 @@ import { FormsModule } from '@angular/forms';
 import { AuthenService } from '../../services/authen.service';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-ver-turnos-especialista',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './ver-turnos-especialista.component.html',
-  styleUrl: './ver-turnos-especialista.component.css'
+  styleUrl: './ver-turnos-especialista.component.css',
+  animations: [
+    trigger('botonEscalar', [
+      state('open', style({
+        transform: 'scale(1.1)', // Escalar el botón a 1.3 de su tamaño original
+        opacity: 1, // Puedes ajustar la opacidad si es necesario
+      })),
+      state('closed', style({
+        transform: 'scale(1)', // Tamaño original
+        opacity: 1, // Asegurarte de que se mantenga visible
+      })),
+      transition('closed => open', [animate('300ms ease-in')]), // Duración y estilo de la transición
+      transition('open => closed', [animate('300ms ease-out')]), // Transición inversa
+    ]),
+  ]
 })
 export class VerTurnosEspecialistaComponent {
   constructor(
@@ -37,11 +52,16 @@ export class VerTurnosEspecialistaComponent {
   mensaje: string = "";
   email!: string;
 
+  enterLeave = signal(true);
+  isOpen = signal(false);
 
 
   ngOnInit(): void {
     this.mensaje = "";
     this.loader.setLoader(true);
+    setInterval(() => {
+      this.isOpen.set(!this.isOpen());
+    }, 700)
     if (this.turnosAll.length === 0) {
       const subs = this.auth.DatosAutenticacion().pipe(
         switchMap(email => {

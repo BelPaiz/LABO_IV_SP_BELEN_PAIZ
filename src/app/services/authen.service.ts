@@ -15,7 +15,9 @@ export class AuthenService {
     onAuthStateChanged(this.auth, (user) => {
       if (!this.evitarActualizacion) {
         if (user?.email) {
-          this.authState.next(user.email);
+          if (user?.emailVerified) {
+            this.authState.next(user.email);
+          }
         } else {
           this.authState.next(null);
         }

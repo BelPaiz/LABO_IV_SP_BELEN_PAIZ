@@ -10,11 +10,31 @@
 }
 
 .mensaje {
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     height: 40px;
-    width: 100%;
+    width: 100%; */
+    position: fixed;
+    /* Fija el div en la parte superior */
+    top: 80px;
+    /* Alinea al borde superior */
+    right: 0;
+    /* Alinea al borde izquierdo */
+    width: 65%;
+    /* Ocupa todo el ancho de la pantalla */
+    background-color: #007bff;
+    /* Color de fondo */
+    color: white;
+    /* Color del texto */
+    text-align: center;
+    /* Centra el contenido */
+    padding: 10px 0;
+    /* Espaciado interno */
+    z-index: 1000;
+    /* Asegura que esté encima de otros elementos */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Agrega sombra */
 }
 
 .item {

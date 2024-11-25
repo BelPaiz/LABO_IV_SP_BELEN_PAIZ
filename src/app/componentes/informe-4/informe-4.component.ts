@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FirestoreService } from '../../services/firestore.service';
 import { LoaderService } from '../../services/loader.service';
 import { Turno } from '../../models/turno';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
 import { PDFService } from '../../services/pdf.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 Chart.register(...registerables)
 
 @Component({
@@ -16,7 +17,21 @@ Chart.register(...registerables)
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './informe-4.component.html',
-  styleUrl: './informe-4.component.css'
+  styleUrl: './informe-4.component.css',
+  animations: [
+    trigger('myAnimation', [
+      state('open', style({
+        height: '65%',
+        opacity: 1,
+      })),
+      state('closed', style({
+        height: '80px',
+        opacity: 0.8,
+        backgroundColor: '#85c1e9'
+      })),
+      transition('closed => open', [animate('1s')]),
+    ]),
+  ]
 })
 export class Informe4Component {
   constructor(private firestore: FirestoreService,
@@ -40,6 +55,9 @@ export class Informe4Component {
   chart: Chart | null = null;
   canvaCreado: boolean = false;
   estadoSolicitado!: string;
+
+  enterLeave = signal(true);
+  isOpen = signal(false);
 
 
 
@@ -158,6 +176,7 @@ export class Informe4Component {
     }
 
     this.conseguirCantidades();
+    this.isOpen.set(!this.isOpen());
   }
 
   // Función para convertir fechas de formato DD/MM/YYYY a Date

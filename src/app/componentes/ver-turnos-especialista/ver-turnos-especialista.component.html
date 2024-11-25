@@ -59,7 +59,7 @@
                     <!-- botones -->
                     <div class="container-botones">
                         <button type="button" *ngIf="turno.estado === 'pendiente'" class="btn btn-primary"
-                            data-bs-toggle="modal"
+                            data-bs-toggle="modal" [@botonEscalar]="isOpen() ? 'open': 'closed'"
                             [attr.data-bs-target]="'#modalVerEstado-' + turno.id">PENDIENTE</button>
 
                         <button type="button" *ngIf="turno.estado === 'cancelado'" class="btn btn-danger"

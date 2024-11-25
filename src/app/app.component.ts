@@ -1,25 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChildrenOutletContexts, Data, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenService } from './services/authen.service';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from "./componentes/loader/loader.component";
 import { FirestoreService } from './services/firestore.service';
 import { AdminUsuariosComponent } from './componentes/admin-usuarios/admin-usuarios.component';
 import { of, Subscription, switchMap } from 'rxjs';
+import { slideInAnimation } from './slideAnimation';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule, LoaderComponent, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  animations: [slideInAnimation]
 })
 export class AppComponent implements OnInit {
-
   title = 'clinica';
+
+  getRouteAnimationData() {
+    return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
+  }
+
+
   constructor(private router: Router,
     private auth: AuthenService,
-    private firestore: FirestoreService) { }
+    private firestore: FirestoreService,
+    private contexts: ChildrenOutletContexts) { }
 
   usuario: any;
   usuario_completo: any;

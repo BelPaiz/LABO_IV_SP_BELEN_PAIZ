@@ -67,4 +67,6 @@
     <p class="copy">Paiz Belen 2024 &copy;</p>
   </div>
 </footer>
-<router-outlet />
+<div [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet></router-outlet>
+</div>
