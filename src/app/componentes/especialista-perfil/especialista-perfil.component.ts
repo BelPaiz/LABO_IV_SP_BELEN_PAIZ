@@ -8,11 +8,14 @@ import { CommonModule } from '@angular/common';
 import { EspecialistaHorariosComponent } from "../especialista-horarios/especialista-horarios.component";
 import { Disponibilidad } from '../../models/disponibilidad_horaria';
 import { OrdenarFechasPipe } from '../../pipes/ordenar-fechas.pipe';
+import { FechasService } from '../../services/fechas.service';
+import { LoaderService } from '../../services/loader.service';
+import { OrdenarDiasPipe } from "../../pipes/ordenar-dias.pipe";
 
 @Component({
   selector: 'app-especialista-perfil',
   standalone: true,
-  imports: [CommonModule, EspecialistaHorariosComponent, OrdenarFechasPipe],
+  imports: [CommonModule, EspecialistaHorariosComponent, OrdenarDiasPipe],
   templateUrl: './especialista-perfil.component.html',
   styleUrl: './especialista-perfil.component.css'
 })
@@ -20,7 +23,8 @@ export class EspecialistaPerfilComponent implements OnInit {
 
   constructor(private auth: AuthenService,
     private firestore: FirestoreService,
-    private router: Router
+    private fecha_serv: FechasService,
+    public loader: LoaderService
   ) { }
 
   @Output() especialidades = new EventEmitter<string[]>();
@@ -58,19 +62,23 @@ export class EspecialistaPerfilComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.auth.DatosAutenticacion().subscribe({
+    this.loader.setLoader(true);
+    const sub = this.auth.DatosAutenticacion().subscribe({
       next: (email) => {
         if (email) {
           this.email = email;
           this.traerUsuario(this.email);
 
           this.traerDisponibilidad(this.email);
+          this.loader.setLoader(false);
         }
       },
       error: (error) => {
         console.error(error);
+        this.loader.setLoader(false);
       }
     });
+    this.subscription.add(sub);
   }
 
   traerUsuario(email: string) {
@@ -102,14 +110,16 @@ export class EspecialistaPerfilComponent implements OnInit {
             for (let index = 0; index < disponible.length; index++) {
               let ultimo = disponible[index].disponible.length;
 
-              let newDisp = {
-                dia: disponible[index].dia,
-                fecha: disponible[index].fecha,
-                desde: disponible[index].disponible[0],
-                hasta: disponible[index].disponible[ultimo - 1]
+              if (this.fecha_serv.fechaFutura(disponible[index].fecha)) {
+                let newDisp = {
+                  dia: disponible[index].dia,
+                  fecha: disponible[index].fecha,
+                  especialidad: disponible[index].especialidad[0],
+                  desde: disponible[index].disponible[0],
+                  hasta: disponible[index].disponible[ultimo - 1]
+                }
+                this.disp.push(newDisp);
               }
-
-              this.disp.push(newDisp);
             }
           }
         },
@@ -119,6 +129,7 @@ export class EspecialistaPerfilComponent implements OnInit {
       });
     this.subscription.add(sub);
   }
+
 
   enviarEspecialidades() {
     if (this.usuario && this.usuario.especialidad) {

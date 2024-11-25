@@ -29,6 +29,12 @@ export class FirestoreService {
     })
   }
 
+  getSesionesPorEmail(email: string): Observable<any[]> {
+    const col = collection(this.firestore, 'sesiones');
+    const tipoQuery = query(col, where('usuario', '==', email));
+    return collectionData(tipoQuery);
+  }
+
   // GESTION USUARIOS
   nuevoUsuario(usuario: Usuario) {
     let col = collection(this.firestore, 'usuarios');
@@ -36,6 +42,11 @@ export class FirestoreService {
       nombre: usuario.nombre, apellido: usuario.apellido, edad: usuario.edad, dni: usuario.dni, obra_social: usuario.obra_social, especialidad: usuario.especialidad,
       email: usuario.email, img1: usuario.img1, img2: usuario.img2, tipo: usuario.tipo, habilitado: usuario.habilitado
     })
+  }
+
+  getUsuariosAll(): Observable<Usuario[]> {
+    const col = collection(this.firestore, 'usuarios');
+    return collectionData(col);
   }
 
   getUsuariosPorTipo(tipo: string): Observable<Usuario[]> {
@@ -180,7 +191,7 @@ export class FirestoreService {
     });
   }
 
-  async updateDisponibilidad(id: string, data: { disponible: string[]; }) {
+  async updateDisponibilidad(id: string, data: { disponible: string[]; especialidad: string[] }) {
     const docRef = doc(this.firestore, `disponibilidad/${id}`);
     try {
       await updateDoc(docRef, data);
@@ -192,18 +203,7 @@ export class FirestoreService {
   // TURNOS
   nuevoTurno(turno: Turno): Promise<DocumentReference> {
     let col = collection(this.firestore, 'turnos');
-    return addDoc(col, {
-      email_paciente: turno.email_paciente,
-      email_especialista: turno.email_especialista,
-      especialidad: turno.especialidad,
-      dia: turno.dia,
-      fecha: turno.fecha,
-      hora: turno.hora,
-      estado: 'pendiente',
-      comentario: null,
-      encuesta: null,
-      calificacion: null
-    });
+    return addDoc(col, turno);
   }
 
   getTurnoPorDato(dato: string, data: string): Observable<Turno[]> {
@@ -251,6 +251,19 @@ export class FirestoreService {
   }
 
   async updateTurnoEncuesta(id: string, data: { encuesta?: string[] }) {
+    const turnoDocRef = doc(this.firestore, `turnos/${id}`);
+    try {
+      await updateDoc(turnoDocRef, data);
+    } catch (error) {
+      console.error('Error al actualizar el turno: ', error);
+    }
+  }
+
+  async updateTurnoHistoria(id: string, data: {
+    historia?: boolean; altura?: string; peso?: string;
+    temperatura?: string; presion?: string[]; dato_uno?: string[] | null;
+    dato_dos?: string[] | null; dato_tres?: string[] | null;
+  }) {
     const turnoDocRef = doc(this.firestore, `turnos/${id}`);
     try {
       await updateDoc(turnoDocRef, data);

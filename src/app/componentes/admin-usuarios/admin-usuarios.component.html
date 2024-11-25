@@ -16,6 +16,10 @@
                     <p class="btn btn-primary ver tres" (click)="seleccionarVer(3)">Lista administradores</p>
                 </div>
 
+                <div class="card-body opcion-ver">
+                    <p class="btn btn-primary ver dos" (click)="descargarCsv()">Descargar listado</p>
+                </div>
+
             </div>
             <div class="container-altas">
 
@@ -39,20 +43,19 @@
                         administrador
                     </p>
                 </div>
-
             </div>
-        </div>
 
+        </div>
 
         <div class="container-usuarios">
             <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 1}">
-                <app-listado-pacientes></app-listado-pacientes>
+                <app-listado-pacientes [usuarios]="users_paciente"></app-listado-pacientes>
             </div>
             <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 2}">
-                <app-listado-especialistas></app-listado-especialistas>
+                <app-listado-especialistas [usuarios]="users_especialista"></app-listado-especialistas>
             </div>
             <div class="card-body usuarios" [ngClass]="{'mostrar': opcionSeleccionada === 3}">
-                <app-listado-admin></app-listado-admin>
+                <app-listado-admin [usuarios]="users_admin"></app-listado-admin>
             </div>
         </div>
     </div>

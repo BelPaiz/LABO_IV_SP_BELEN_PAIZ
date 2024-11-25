@@ -1,0 +1,68 @@
+<body>
+    <div class="container">
+        <form [formGroup]="form">
+            <div class="titulo">
+                <h3>Historia clínica del paciente</h3>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Altura:</span>
+                </div>
+                <input type="text" class="form-control" formControlName="altura" id="basic-url"
+                    (click)="limpiarMensaje()" aria-describedby="basic-addon3" placeholder="Ingrese altura en cm">
+
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Peso:</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" formControlName="peso" (click)="limpiarMensaje()"
+                    aria-describedby="basic-addon3" placeholder="Ingrese peso en Kg">
+
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Temperatura:</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" formControlName="temperatura"
+                    (click)="limpiarMensaje()" aria-describedby="basic-addon3" placeholder="Ingrese temperatura en °C">
+
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Presión arterial:</span>
+                </div>
+                <input type="text" class="form-control" formControlName="presion1" placeholder="Ingrese sistólica"
+                    (click)="limpiarMensaje()">
+                <input type="text" class="form-control" formControlName="presion2" placeholder="Ingrese diastólica"
+                    (click)="limpiarMensaje()">
+
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Datos adicionales:</span>
+                </div>
+                <input type="text" class="form-control" formControlName="dato1a" placeholder="Nombre del dato">
+                <input type="text" class="form-control" formControlName="dato1b" placeholder="valor del dato">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Datos adicionales:</span>
+                </div>
+                <input type="text" class="form-control" formControlName="dato2a" placeholder="Nombre del dato">
+                <input type="text" class="form-control" formControlName="dato2b" placeholder="valor del dato">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Datos adicionales:</span>
+                </div>
+                <input type="text" class="form-control" formControlName="dato3a" placeholder="Nombre del dato">
+                <input type="text" class="form-control" formControlName="dato3b" placeholder="valor del dato">
+            </div>
+            <button type="submit" class="btn btn-primary" style="align-self: flex-end;"
+                (click)="guardarHistoria()">Guardar historia</button>
+            <p style="align-self: flex-start;" class="text-danger">{{mensaje}}</p>
+        </form>
+
+    </div>
+</body>

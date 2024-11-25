@@ -22,12 +22,4 @@ export class RegistroComponent implements OnInit {
     }, 500);
   };
 
-  irRegistro_paciente() {
-    this.router.navigate(['/registro_paciente']);
-  }
-
-  irRegistro_medico() {
-    this.router.navigate(['/registro_especialista']);
-  }
-
 }

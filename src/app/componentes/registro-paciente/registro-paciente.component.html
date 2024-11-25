@@ -34,7 +34,7 @@
                     <div class="col-12">
                         <label for="pass2" class="form-label">Reingrese contraseña</label>
                         <input type="password" class="form-control" id="pass2" formControlName="repiteClave"
-                            placeholder="Vuelva a ingresar contraseña" required (click)="limpiarError()">
+                            appBlockPegar placeholder="Vuelva a ingresar contraseña" required (click)="limpiarError()">
                         <small class="text-danger">
                             {{repiteClave?.getError('noCoincide')}}
                         </small>
@@ -63,8 +63,8 @@
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" formControlName="nombre" id="nombre"
-                                placeholder="Ingrese nombre" value="" required (click)="limpiarError()">
+                            <input type="text" class="form-control" formControlName="nombre" appPrimeraMayuscula
+                                id="nombre" placeholder="Ingrese nombre" value="" required (click)="limpiarError()">
                             <ng-container *ngIf="nombre?.hasError('pattern')">
                                 <small class="text-danger">Debe contener solo letras</small>
                             </ng-container>
@@ -73,7 +73,8 @@
                         <div class="col-sm-6">
                             <label for="apellido" class="form-label">Apellido</label>
                             <input type="text" formControlName="apellido" class="form-control" id="apellido"
-                                placeholder="Ingrese apellido" value="" required (click)="limpiarError()">
+                                appPrimeraMayuscula placeholder="Ingrese apellido" value="" required
+                                (click)="limpiarError()">
                             <ng-container *ngIf="apellido?.hasError('pattern')">
                                 <small class="text-danger">Debe contener solo letras</small>
                             </ng-container>

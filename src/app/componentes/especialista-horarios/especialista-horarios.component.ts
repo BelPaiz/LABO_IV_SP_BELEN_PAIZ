@@ -18,12 +18,14 @@ import { FechasService } from '../../services/fechas.service';
 })
 export class EspecialistaHorariosComponent implements OnInit {
 
-  constructor(private auth: AuthenService,
+  constructor(
     private firestore: FirestoreService,
     private fecha_serv: FechasService
   ) { }
+
   ngOnInit(): void {
     this.traerFechas();
+
   }
 
   @Input() especialidades: string[] | null = null;
@@ -37,7 +39,7 @@ export class EspecialistaHorariosComponent implements OnInit {
   horaDesde: string = "";
   horaFin: string = "";
 
-  dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
   horarioSemanal = horarioSemanal;
 
@@ -46,6 +48,8 @@ export class EspecialistaHorariosComponent implements OnInit {
   turnosSeleccionados: string[] = [];
   selectInicio!: HTMLSelectElement;
   selectFin!: HTMLSelectElement;
+  especialidadSeleccionada: string[] = [];
+  seleccionEspecial: string = "";
 
   fechas = [
     {
@@ -90,6 +94,7 @@ export class EspecialistaHorariosComponent implements OnInit {
     }
   }
   calcularDisponible() {
+    this.turnosSeleccionados = [];
     for (let i = 0; i <= horarioSemanal.length; i++) {
       if (horarioSemanal[i] >= this.horaDesde && horarioSemanal[i] <= this.horaFin) {
         this.turnosSeleccionados.push(horarioSemanal[i]);
@@ -109,34 +114,55 @@ export class EspecialistaHorariosComponent implements OnInit {
     }
   }
 
+  seleccionEspecialidad(espec: string) {
+    this.seleccionEspecial = espec;
+    if (this.especialidadSeleccionada.length > 0) {
+      this.especialidadSeleccionada = [];
+    }
+    this.especialidadSeleccionada.push(espec);
+  }
 
-  async guardarDisponibilidad(dia: string, fecha: string) {
+  // , fecha: string
+
+  async guardarDisponibilidad(dia: string) {
     if (this.validarHorarios()) {
-      if (this.email !== null && this.especialidades) {
-        if (this.horaFin > this.horaDesde) {
-          this.calcularDisponible();
-          this.disponibilidad = {
-            email: this.email,
-            dia: dia,
-            fecha: fecha,
-            especialidad: this.especialidades,
-            disponible: this.turnosSeleccionados
-          }
-          const disponibilidadDoc = await this.firestore.getDisponibilidadId(this.disponibilidad);
-          if (disponibilidadDoc !== null) {
-            let data = {
-              disponible: this.turnosSeleccionados
+      if (this.especialidadSeleccionada.length > 0) {
+        if (this.email !== null && this.especialidades) {
+          if (this.horaFin > this.horaDesde) {
+
+            for (let i = 0; i < this.fechas.length; i++) {
+              if (this.fechas[i].dia === dia) {
+                this.calcularDisponible();
+
+                this.disponibilidad = {
+                  email: this.email,
+                  dia: dia,
+                  fecha: this.fechas[i].fecha,
+                  especialidad: this.especialidadSeleccionada,
+                  disponible: this.turnosSeleccionados
+                }
+
+                const disponibilidadDoc = await this.firestore.getDisponibilidadId(this.disponibilidad);
+                if (disponibilidadDoc !== null) {
+                  let data = {
+                    disponible: this.turnosSeleccionados,
+                    especialidad: this.especialidadSeleccionada
+                  }
+                  await this.firestore.updateDisponibilidad(disponibilidadDoc.id, data);
+                  this.mostrarError("Disponibilidad actualizada exitosamente");
+                } else {
+                  this.firestore.setDisponibilidad(this.disponibilidad);
+                  this.mostrarError("Disponibilidad guardada exitosamente");
+                }
+              }
             }
-            await this.firestore.updateDisponibilidad(disponibilidadDoc.id, data);
-            this.mostrarError("Disponibilidad actualizada exitosamente");
-          } else {
-            this.firestore.setDisponibilidad(this.disponibilidad);
-            this.mostrarError("Disponibilidad guardada exitosamente");
+            this.turnosSeleccionados = [];
+            this.horaFin = "";
+            this.horaDesde = "";
           }
-          this.turnosSeleccionados = [];
-          this.horaFin = "";
-          this.horaDesde = "";
         }
+      } else {
+        this.mostrarError("Seleccione especialidad");
       }
     }
   }

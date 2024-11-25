@@ -25,7 +25,6 @@ export class LoginComponent {
     this.auth.CerrarSesion();
     this.traerUsuarios();
 
-
   }
 
   email: string = "";
@@ -76,11 +75,14 @@ export class LoginComponent {
                   }
                 }
               }
-            }
-            else {
-              this.error = "Debes verificar tu correo electrónico antes de iniciar sesión.";
+            } else {
+              this.error = "Ah ocurrido un error al obtener sus credenciales, intente nuevamente.";
               this.loader.setLoader(false);
             }
+          }
+          else {
+            this.error = "Debes verificar tu correo electrónico antes de iniciar sesión.";
+            this.loader.setLoader(false);
           }
         }
       }).catch((e) => {

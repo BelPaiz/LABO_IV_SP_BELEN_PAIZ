@@ -1,0 +1,166 @@
+body {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* overflow: hidden; */
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 85%;
+    width: 60%;
+    margin: 5px 5px 5px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.btn {
+    font-family: 'Poppins';
+    align-self: flex-end;
+    justify-self: flex-start;
+    margin-bottom: 100px;
+}
+
+.encabezado {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    ;
+}
+
+.historia-clinica-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 95%;
+    width: 95%;
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    color: #333;
+    font-family: 'Poppins-Light';
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    height: 15%;
+    width: 100%;
+}
+
+.logo {
+    width: 150px;
+    justify-self: flex-start;
+    align-self: flex-end;
+}
+
+.fecha-hoy {
+    font-family: 'Poppins-Light';
+    justify-self: flex-end;
+    align-self: flex-end;
+    font-size: 16px;
+    color: #555;
+}
+
+.titulo {
+    font-family: 'Poppins-Light';
+    align-self: flex-start;
+    text-align: center;
+    font-size: 40px;
+    margin: 0;
+    flex: 1;
+}
+
+.datos-paciente {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    /* Dos columnas de igual tamaño */
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+}
+
+.datos-paciente h2 {
+    align-self: flex-start;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.dato_p {
+    font-family: 'Poppins-Light';
+}
+
+.turnos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.turnos h2 {
+    align-self: flex-start;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.turno-card {
+    /* border-top: 1px solid #000; */
+    /* Borde solo en la parte superior */
+
+    /* Borde solo en la parte inferior */
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    /* Fondo ligeramente gris para destacar el contenido */
+    width: 100%;
+}
+
+.data-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    /* Dos columnas de igual tamaño */
+    gap: 10px;
+    /* Espaciado entre celdas */
+    border-bottom: 1px solid #000;
+}
+
+.data-grid p {
+    margin: 5px 0;
+}
+
+.data-t {
+    font-family: 'Poppins-Light';
+}
+
+.turno-card p {
+    margin: 5px 0;
+}
+
+.turno-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.turno-card ul li {
+    list-style-type: disc;
+}

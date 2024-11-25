@@ -1,32 +1,29 @@
 <div class="container">
-    <table class="table table-hover table-primary">
-        <thead>
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Edad</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Obra social</th>
-                <th scope="col">Email</th>
-                <th scope="col">Imagen 1</th>
-                <th scope="col">Imagen 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let usuario of usuarios" class="fila">
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.apellido }}</td>
-                <td>{{ usuario.edad }}</td>
-                <td>{{ usuario.dni }}</td>
-                <td>{{ usuario.obra_social }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>
-                    <img *ngIf="usuario.img1" [src]=" usuario.img1" alt="Imagen 1" width="50" height="50">
-                </td>
-                <td>
-                    <img *ngIf="usuario.img2" [src]=" usuario.img2" alt="Imagen 2" width="50" height="50">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="mensaje">
+        <p>{{mensaje}}</p>
+    </div>
+    <div class="item" *ngFor="let usuario of usuarios" (click)="limpiarMensaje()">
+        <div class="container-foto">
+            <img *ngIf="usuario.img1" [src]=" usuario.img1" alt="Imagen 1" width="50" height="60">
+            <img *ngIf="usuario.img2" [src]=" usuario.img2" alt="Imagen 2" width="50" height="60">
+        </div>
+        <div class="container-data">
+            <div class="data-nombre">
+                <p class="nom" appMayusculasNombre>{{ usuario.nombre }} {{ usuario.apellido }}</p>
+            </div>
+            <div class="data-data">
+                <p class="dato_p"><strong>Edad:</strong> {{ usuario.edad }} años</p>
+                <p class="dato_p"><strong>Email:</strong> {{ usuario.email }}</p>
+                <p class="dato_p"><strong>Dni:</strong> {{ usuario.dni }}</p>
+                <p class="dato_p"><strong>Obra social:</strong> {{ usuario.obra_social }}</p>
+
+            </div>
+            <div class="data-botones">
+                <button type="button" class="btn btn-success" (click)=" seleccionExcel(usuario.email)">Descargar
+                    excel</button>
+                <button type="button" class="btn btn-warning" (click)=" seleccionHC(usuario.email)">Ver historia
+                    clínica</button>
+            </div>
+        </div>
+    </div>
 </div>

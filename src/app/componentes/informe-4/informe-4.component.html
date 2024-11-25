@@ -1,0 +1,21 @@
+<body>
+    <div class="container">
+        <div class="container-botones">
+            <label class="in" for="desde">Fecha desde: </label>
+            <input class="in" type="date" id="desde" [(ngModel)]="fecha_desde" (click)="limpiarMensaje()">
+            <label class="in" for="hasta">Fecha hasta: </label>
+            <input class="in" type="date" id="hasta" [(ngModel)]="fecha_hasta" (click)="limpiarMensaje()">
+            <button type="button" class="btn btn-info" (click)="filtrarTurnos()">Generar</button>
+            <button style="margin-left: 10px;" type="button" class="btn btn-warning" (click)="descargar()">Descargar
+                PDF</button>
+
+        </div>
+        <div class="mensaje" *ngIf="mensaje" style="color: red;">
+            {{ mensaje }}
+        </div>
+        <div class="container-grafico" id="contenido">
+            <h2>Turnos {{estadoSolicitado}}s por médico en un lapso de tiempo</h2>
+            <canvas id="piechart"></canvas>
+        </div>
+    </div>
+</body>

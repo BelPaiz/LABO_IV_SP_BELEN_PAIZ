@@ -1,0 +1,31 @@
+<body class="body">
+    <div class="container">
+        <div class="card " routerLink="/logs-ingresos" routerLinkActive="active-route">
+            <div class="card-body">
+                <p class="card-text">Registros de ingresos al sistema</p>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-body" routerLink="/informes-2" routerLinkActive="active-route">
+                <p class="card-text">Turnos por especialidad</p>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-body" routerLink="/informes-3" routerLinkActive="active-route">
+                <p class="card-text">Turnos por día</p>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-body" (click)="irInforme4('todos')">
+                <p class="card-text">Turnos solicitados por especialista</p>
+            </div>
+        </div>
+        <div class="card ">
+            <div class="card-body" (click)="irInforme4('finalizado')">
+                <p class="card-text">Turnos finalizados por especialista</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+<router-outlet />

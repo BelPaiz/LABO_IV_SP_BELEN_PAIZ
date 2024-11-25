@@ -74,17 +74,21 @@
                             data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalVerEstado-' + turno.id">RECHAZADO</button>
 
-                        <button type="button" *ngIf="turno.estado === 'realizado'" class="btn btn-info"
+                        <button type="button" *ngIf="turno.estado === 'finalizado'" class="btn btn-info"
                             data-bs-toggle="modal"
-                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">REALIZADO</button>
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">FINALIZADO</button>
 
                         <button type="button" class="btn-outline-primary" data-bs-toggle="modal"
                             *ngIf="turno.comentario"
                             [attr.data-bs-target]="'#modalComentario-' + turno.id">COMENTARIO</button>
+
+                        <button type="button" *ngIf="turno.estado === 'finalizado' && !turno.historia"
+                            class="btn btn-secondary" (click)="irHc(turno.id)">COMPLETAR
+                            HC</button>
                     </div>
                 </form>
-                <!-- Modal VER ESTADO -->
 
+                <!-- Modal VER ESTADO -->
                 <div class="modal fade" [attr.id]="'modalVerEstado-' + turno.id" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -95,25 +99,28 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body" *ngIf="turno.estado === 'pendiente'">
+                            <div class="modal-body" *ngIf="turno.estado === 'pendiente' || turno.estado === 'aceptado'">
                                 <div class="mb-3">
                                     <textarea class="form-control fuente" id="message-text"
                                         [(ngModel)]="comentario"></textarea>
                                 </div>
-                                <button type="button" class="btn btn-danger"
+                                <button type="button" class="btn btn-danger" *ngIf="turno.estado === 'pendiente'"
                                     (click)="guardar_estado(comentario,turno.id, 'cancelado')"
                                     data-bs-dismiss="modal"><span><img src="../../../assets/images/cancelar.png" alt=""
                                             width="30px"></span>CANCELAR</button>
-                                <button type="button" class="btn btn-warning"
+
+                                <button type="button" class="btn btn-warning" *ngIf="turno.estado === 'pendiente'"
                                     (click)="guardar_estado(comentario,turno.id, 'rechazado')"
                                     data-bs-dismiss="modal"><span><img src="../../../assets/images/cancelar.png" alt=""
                                             width="30px"></span>RECHAZAR</button>
-                                <button type="button" class="btn btn-success"
+
+                                <button type="button" class="btn btn-success" *ngIf="turno.estado === 'pendiente'"
                                     (click)="guardar_estado(comentario,turno.id, 'aceptado')"
                                     data-bs-dismiss="modal"><span><img src="../../../assets/images/aceptar.png" alt=""
                                             width="30px"></span>ACEPTAR</button>
-                                <button type="button" class="btn btn-info"
-                                    (click)="guardar_estado(comentario,turno.id, 'realizado')"
+
+                                <button type="button" class="btn btn-info" *ngIf="turno.estado === 'aceptado'"
+                                    (click)="guardar_estado(comentario,turno.id, 'finalizado')"
                                     data-bs-dismiss="modal"><span><img src="../../../assets/images/finalizar.png" alt=""
                                             width="30px"></span>FINALIZAR</button>
                             </div>

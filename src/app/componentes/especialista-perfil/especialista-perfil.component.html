@@ -23,15 +23,15 @@
                 <thead>
                     <tr>
                         <th scope="col">Día</th>
-                        <th scope="col">Fecha</th>
+                        <th scope="col">Especialidad</th>
                         <th scope="col">Desde</th>
                         <th scope="col">Hasta</th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let dis of disp | ordenarFechas: 'fecha'">
+                <tbody *ngFor="let dis of disp | ordenarDias: 'dia'">
                     <tr class="fila">
                         <td>{{dis.dia}}</td>
-                        <td>{{dis.fecha}}</td>
+                        <td>{{dis.especialidad}}</td>
                         <td>{{dis.desde}}hs</td>
                         <td>{{dis.hasta}}hs</td>
                     </tr>

@@ -1,27 +1,37 @@
 <div class="container">
 
-    <h6 style="justify-self: flex-start;">Ingrese disponibilidad horaria: </h6>
+    <h6 style="justify-self: flex-start;">Actualice su disponibilidad horaria: </h6>
+    <div class="container-botones">
+        <button type="button" class="btn btn-info esp" (click)="seleccionEspecialidad(especialidad)"
+            *ngFor="let especialidad of especialidades">{{especialidad}}</button>
+        <div class="input-group">
+            <span class="input-group-text" style="background-color: #0dcaf0;">Especialidad seleccionada</span>
+            <input type="text" aria-label="First name" style="border-color: #0dcaf0;" class="form-control" readonly
+                value="{{seleccionEspecial}}">
+        </div>
+    </div>
     <p>{{error}}</p>
     <div class="tabla">
         <table class="table table-hover table-primary">
             <thead>
                 <tr>
                     <th scope="col">Día</th>
-                    <th scope="col">Fecha</th>
+                    <!-- <th scope="col">Fecha</th> -->
                     <th scope="col">Desde</th>
                     <th scope="col">Hasta</th>
                     <th scope="col">Guardar</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let dia of fechas">
+            <tbody *ngFor="let dia of dias">
                 <tr class="fila">
-                    <td>{{dia.dia}}</td>
-                    <td>{{dia.fecha}}</td>
+                    <td>{{dia}}</td>
+                    <!-- <td>{{dia.fecha}}</td> -->
 
                     <td>
                         <div class="hora">
-                            <select style="width: 50%;" (change)="recuperarHorarioInicio($event)">
-                                <ng-container *ngIf="dia.dia === 'Sábado'; else horarioSemanalTemplate">
+                            <select style="width: 50%;" (change)="recuperarHorarioInicio($event)"
+                                style="cursor: pointer;">
+                                <ng-container *ngIf="dia === 'Sábado'; else horarioSemanalTemplate">
                                     <option *ngFor="let turno of horarioSabado" [value]="turno">{{
                                         turno}}
                                     </option>
@@ -36,8 +46,8 @@
                     </td>
                     <td>
                         <div class="hora">
-                            <select style="width: 50%;" (change)="recuperarHorarioFin($event)">
-                                <ng-container *ngIf="dia.dia === 'Sábado'; else horarioSemanalTemplate">
+                            <select style="width: 50%;" (change)="recuperarHorarioFin($event)" style="cursor: pointer;">
+                                <ng-container *ngIf="dia === 'Sábado'; else horarioSemanalTemplate">
                                     <option *ngFor="let turno of horarioSabado" [value]="turno">{{
                                         turno}}
                                     </option>
@@ -51,8 +61,8 @@
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-primary"
-                            (click)="guardarDisponibilidad(dia.dia, dia.fecha)">Guardar</button>
+                        <button class="btn btn-primary" (click)="guardarDisponibilidad(dia)">Guardar</button>
+                        <!-- , dia.fecha -->
                     </td>
                 </tr>
             </tbody>

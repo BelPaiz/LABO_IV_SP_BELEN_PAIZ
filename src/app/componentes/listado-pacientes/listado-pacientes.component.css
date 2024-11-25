@@ -1,3 +1,99 @@
-td {
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    height: 100%;
+    width: 95%;
+    margin: 5px 5px 5px;
+}
+
+.mensaje {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    height: 180px;
+    width: 80%;
+    border-radius: 10px;
+    margin: 7px;
+    border-color: blue 5px;
+    background-color: rgb(216, 184, 247, 0.8);
+}
+
+.item:hover {
+    background-color: blueviolet;
+}
+
+.container-foto {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 90%;
+    width: 15%;
+    margin: 10px;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.container-data {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: 95%;
+    width: 85%;
+    margin: 5px;
+}
+
+.data-nombre {
+    background-color: blueviolet;
+    height: 15%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.nom {
+
+    font-size: large;
+    align-self: flex-end;
+    color: white;
+}
+
+.data-data {
+    margin-top: 15px;
+    display: grid;
+    justify-content: flex-start;
+    width: 100%;
+    grid-template-columns: 30% 70%;
+    gap: 5px;
+}
+
+.dato_p {
     font-family: 'Poppins-Light';
+    justify-self: flex-start;
+    align-self: center;
+}
+
+.data-botones {
+    display: flex;
+    height: 25%;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.btn {
+    border-radius: 20px;
 }

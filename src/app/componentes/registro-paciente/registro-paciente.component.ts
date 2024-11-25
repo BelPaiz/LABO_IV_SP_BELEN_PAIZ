@@ -10,12 +10,14 @@ import { FirestoreService } from '../../services/firestore.service';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { recaptcha } from '../../../../enviromentCap';
 import { Usuario } from '../../models/usuario';
+import { PrimeraMayusculaDirective } from '../../directivas/primera-mayuscula.directive';
+import { BlockPegarDirective } from '../../directivas/block-pegar.directive';
 
 
 @Component({
   selector: 'app-registro-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule, PrimeraMayusculaDirective, BlockPegarDirective],
   templateUrl: './registro-paciente.component.html',
   styleUrl: './registro-paciente.component.css',
   providers: [

@@ -1,0 +1,59 @@
+<body>
+    <button type="button" class="btn btn-warning" (click)="descargarPdf()">Descargar PDF</button>
+    <div class="container" id="historia-clinica">
+        <div class="historia-clinica-container">
+            <!-- Encabezado -->
+            <header class="header">
+                <div class="fecha-hoy">
+                    <h1 class="titulo">HISTORIA CLÍNICA</h1>
+                    {{ today | date: 'dd \'de\' MMMM \'de\' yyyy' }}
+                </div>
+                <img src="../../../assets/images/logo-clinica.png" alt="Logo Clínica" class="logo" />
+            </header>
+
+            <!-- Datos del paciente -->
+            <section class="datos-paciente">
+                <h2>Datos del Paciente:</h2>
+                <div class="datos">
+                    <p class="dato_p"><strong>Nombre:</strong> {{ nombre_paciente }}</p>
+                    <p class="dato_p"><strong>Edad:</strong> {{ paciente.edad }} años</p>
+                    <p class="dato_p"><strong>DNI:</strong> {{ paciente.dni }}</p>
+                    <p class="dato_p"><strong>Obra Social:</strong> {{ paciente.obra_social }}</p>
+                </div>
+            </section>
+
+            <!-- Sección de turnos -->
+            <section class="turnos">
+                <h2>Turnos:</h2>
+                <div *ngFor="let turno of turnosMap" class="turno-card">
+                    <div class="data-grid" *ngIf="turno.estado === 'finalizado'">
+                        <p class="data-t"><strong>Fecha:</strong> {{ turno.fecha }}</p>
+                        <p class="data-t"><strong>Hora:</strong> {{ turno.hora }}hs</p>
+                        <p class="data-t"><strong>Especialista:</strong> {{ turno.especialista }}</p>
+                        <p class="data-t"><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
+                        <p class="data-t">
+                            <strong>Presión:</strong> {{ turno.presion?.[0] }}/{{ turno.presion?.[1] }}
+                        </p>
+                        <p class="data-t"><strong>Altura:</strong> {{ turno.altura }} cm</p>
+                        <p class="data-t"><strong>Peso:</strong> {{ turno.peso }} kg</p>
+                        <p class="data-t"><strong>Temperatura:</strong> {{ turno.temperatura }} °C</p>
+
+                        <p class="data-t"><strong>Comentario:</strong> {{ turno.comentario }}</p>
+
+                        <p class="data-t" *ngIf="turno.dato_uno"><strong>{{ turno.dato_uno[0] }}:</strong> {{
+                            turno.dato_uno[1] }}</p>
+
+                        <p class="data-t" *ngIf="turno.dato_dos"><strong>{{ turno.dato_dos[0] }}:</strong> {{
+                            turno.dato_dos[1] }}</p>
+
+                        <p class="data-t" *ngIf="turno.dato_tres"><strong>{{ turno.dato_tres[0] }}:</strong> {{
+                            turno.dato_tres[1] }}</p>
+                    </div>
+
+
+                </div>
+            </section>
+        </div>
+
+    </div>
+</body>

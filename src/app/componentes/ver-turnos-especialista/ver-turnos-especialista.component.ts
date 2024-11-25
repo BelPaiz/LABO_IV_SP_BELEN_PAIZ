@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { LoaderService } from '../../services/loader.service';
 import { FormsModule } from '@angular/forms';
 import { AuthenService } from '../../services/authen.service';
+import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-ver-turnos-especialista',
@@ -18,7 +20,9 @@ export class VerTurnosEspecialistaComponent {
   constructor(
     private firestore: FirestoreService,
     public loader: LoaderService,
-    private auth: AuthenService
+    private auth: AuthenService,
+    private router: Router,
+    private data: DataService
   ) { }
 
   private subscription: Subscription = new Subscription();
@@ -36,6 +40,7 @@ export class VerTurnosEspecialistaComponent {
 
 
   ngOnInit(): void {
+    this.mensaje = "";
     this.loader.setLoader(true);
     if (this.turnosAll.length === 0) {
       const subs = this.auth.DatosAutenticacion().pipe(
@@ -44,6 +49,8 @@ export class VerTurnosEspecialistaComponent {
             this.email = email;
             return this.firestore.getTurnosByEmailEspecialista(email);
           } else {
+            this.loader.setLoader(false);
+            this.mensaje = "Ocurrio un error al obtener sus turnos";
             return of(null);
           }
         })
@@ -55,13 +62,21 @@ export class VerTurnosEspecialistaComponent {
 
             this.mapearInfo();
           }
+          else {
+            this.loader.setLoader(false);
+            this.mensaje = "No hay turnos para mostrar";
+          }
         },
         error: (error) => {
+          this.loader.setLoader(false);
           console.error(error);
         }
       });
       this.subscription.add(subs);
+    } else {
+      this.loader.setLoader(false);
     }
+
   }
 
   async mapearInfo() {
@@ -82,7 +97,15 @@ export class VerTurnosEspecialistaComponent {
         comentario: turno.comentario,
         encuesta: turno.encuesta,
         calificacion: turno.calificacion,
+        historia: turno.historia,
         id: turno.id,
+        altura: turno.altura,
+        peso: turno.peso,
+        temperatura: turno.temperatura,
+        presion: turno.presion,
+        dato_uno: turno.dato_uno,
+        dato_dos: turno.dato_dos,
+        dato_tres: turno.dato_tres
       };
       return mapa;
     });
@@ -93,7 +116,6 @@ export class VerTurnosEspecialistaComponent {
     // Actualizar turnosFiltrados
     this.turnosFiltrados = [...this.turnosMap];
 
-    // Desactivar el loader
     this.loader.setLoader(false);
   }
 
@@ -144,7 +166,9 @@ export class VerTurnosEspecialistaComponent {
             this.mensaje = "";
             this.comentario = "";
           }, 2500);
-
+          if (estado === 'finalizado') {
+            this.irHc(id);
+          }
         })
         .catch(error => {
           console.error(error);
@@ -157,6 +181,10 @@ export class VerTurnosEspecialistaComponent {
       }, 2500);
     }
 
+  }
+  irHc(id: string) {
+    this.data.setTurno(id);
+    this.router.navigate(['/completar-hc']);
   }
 
   ngOnDestroy(): void {

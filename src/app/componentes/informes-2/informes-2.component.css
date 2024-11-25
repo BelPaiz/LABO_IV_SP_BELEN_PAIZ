@@ -1,0 +1,49 @@
+body {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10%;
+    height: 90%;
+    width: 100%;
+}
+
+.container-grafico {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 75%;
+    width: 90%;
+    background-color: white;
+}
+
+div {
+    text-align: center;
+}
+
+canvas {
+    max-height: 80%;
+    max-width: 90%;
+    /* max-width: 80%;
+    margin: auto; */
+}
+
+.btn {
+    align-self: flex-end;
+}

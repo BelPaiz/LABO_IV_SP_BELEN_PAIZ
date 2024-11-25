@@ -129,7 +129,15 @@ export class SeleccionHoraComponent implements OnChanges, OnInit, OnDestroy {
         estado: 'pendiente',
         comentario: null,
         encuesta: null,
-        calificacion: null
+        calificacion: null,
+        historia: false,
+        altura: null,
+        peso: null,
+        temperatura: null,
+        presion: null,
+        dato_uno: null,
+        dato_dos: null,
+        dato_tres: null
       }
       this.firestore.nuevoTurno(this.nuevoTurno)
         .then((respuesta) => {
@@ -137,7 +145,11 @@ export class SeleccionHoraComponent implements OnChanges, OnInit, OnDestroy {
             this.mensaje[0] = 'Turno reservado correctamente, el mismo se encuentra en estado pendiente de aceptación,';
             this.mensaje[1] = `para la especialidad ${this.nuevoTurno.especialidad}, el día ${this.nuevoTurno.dia} ${this.nuevoTurno.fecha}/2024 a las ${this.nuevoTurno.hora}hs`;
             setTimeout(() => {
-              this.router.navigate(['/perfil-paciente']);
+              if (this.tipoUsuario === 'admin') {
+                this.router.navigate(['/ver-turnos-admin']);
+              } else {
+                this.router.navigate(['/ver-turnos-paciente']);
+              }
             }, 3000);
           }
         })

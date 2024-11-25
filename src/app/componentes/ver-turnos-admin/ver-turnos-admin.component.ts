@@ -34,6 +34,7 @@ export class VerTurnosAdminComponent {
 
 
   ngOnInit(): void {
+    this.mensaje = "";
     this.loader.setLoader(true);
     if (this.turnosAll.length === 0) {
       const sub = this.firestore.getTurnosAllID().subscribe({
@@ -44,13 +45,19 @@ export class VerTurnosAdminComponent {
 
             this.mapearInfo();
           }
+          else {
+            this.loader.setLoader(false);
+            this.mensaje = "No hay turnos para mostrar";
+          }
         },
         error: (error) => {
+          this.loader.setLoader(false);
           console.error(error);
         }
       });
       this.subscription.add(sub);
     }
+    this.loader.setLoader(false);
   }
 
   async mapearInfo() {
@@ -72,6 +79,13 @@ export class VerTurnosAdminComponent {
         encuesta: turno.encuesta,
         calificacion: turno.calificacion,
         id: turno.id,
+        altura: turno.altura,
+        peso: turno.peso,
+        temperatura: turno.temperatura,
+        presion: turno.presion,
+        dato_uno: turno.dato_uno,
+        dato_dos: turno.dato_dos,
+        dato_tres: turno.dato_tres
       };
       return mapa;
     });

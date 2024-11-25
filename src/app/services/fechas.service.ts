@@ -37,4 +37,16 @@ export class FechasService {
     const anio = date.getFullYear().toString();
     return `${dia}/${mes}/${anio}`;
   }
+
+  fechaFutura(fechaString: string): boolean {
+    // Parsear la fecha del string (formato dd/MM/yyyy)
+    const [dia, mes, anio] = fechaString.split('/').map(Number);
+    const fechaIngresada = new Date(anio, mes - 1, dia);
+
+    // Obtener la fecha actual sin horas, minutos, segundos
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    return fechaIngresada >= hoy;
+  }
 }

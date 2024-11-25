@@ -10,11 +10,13 @@ import { confirmarCalveValidator } from '../../validadores/clave.validator';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { recaptcha } from '../../../../enviromentCap';
 import { Usuario } from '../../models/usuario';
+import { PrimeraMayusculaDirective } from '../../directivas/primera-mayuscula.directive';
+import { BlockPegarDirective } from '../../directivas/block-pegar.directive';
 
 @Component({
   selector: 'app-registro-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule, PrimeraMayusculaDirective, BlockPegarDirective],
   templateUrl: './registro-admin.component.html',
   styleUrl: './registro-admin.component.css',
   providers: [

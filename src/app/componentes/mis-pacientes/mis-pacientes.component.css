@@ -1,0 +1,99 @@
+body {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(../../../assets/images/fondo-vector-azul-linea-blanca.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    width: 100%;
+    margin: 5px 5px 5px;
+}
+
+.container-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 90%;
+    overflow-y: auto;
+
+}
+
+.lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+    margin: 10px;
+    border-color: blue 5px;
+    background-color: rgb(216, 184, 247, 0.8);
+    cursor: pointer;
+}
+
+.item:hover {
+    background-color: blueviolet;
+    color: white;
+    animation: pulse;
+    animation-duration: 1s;
+}
+
+.foto {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50px;
+    cursor: pointer;
+    /* max-width: 110px;
+    height: auto;
+    margin: 10px;
+    border-radius: 15px; */
+}
+
+.nombre {
+    font-family: 'Poppins';
+    font-size: medium;
+    align-self: center;
+}
+
+.btn {
+    border-radius: 50px;
+    width: 60px;
+    height: 60px;
+    align-self: flex-start;
+    justify-self: flex-end;
+}
+
+.fav {
+    box-shadow: -10px 12px 14px 2px rgba(0, 0, 0, 0.47);
+}
+
+.fav:hover {
+    animation: pulse;
+    animation-duration: 1s;
+}

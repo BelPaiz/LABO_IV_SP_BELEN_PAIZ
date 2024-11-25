@@ -5,6 +5,8 @@ import { Usuario } from '../../models/usuario';
 import { Subscription } from 'rxjs';
 import { FirestoreService } from '../../services/firestore.service';
 import { CommonModule } from '@angular/common';
+import { LoaderService } from '../../services/loader.service';
+import { DataService } from '../../services/data.service';
 
 
 @Component({
@@ -17,7 +19,9 @@ import { CommonModule } from '@angular/common';
 export class PacientePerfilComponent {
   constructor(private auth: AuthenService,
     private firestore: FirestoreService,
-    private router: Router
+    public loader: LoaderService,
+    private router: Router,
+    private data: DataService
   ) { }
 
   usuario: Usuario = {
@@ -37,15 +41,18 @@ export class PacientePerfilComponent {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
+    this.loader.setLoader(true);
     const sub = this.auth.DatosAutenticacion().subscribe({
       next: (email) => {
         if (email) {
           this.email = email;
           this.traerUsuario(this.email);
+          this.loader.setLoader(false);
         }
       },
       error: (error) => {
         console.error(error);
+        this.loader.setLoader(false);
       }
     });
     this.subscription.add(sub);
@@ -67,7 +74,10 @@ export class PacientePerfilComponent {
     this.subscription.add(sub);
   }
 
-
+  verDetalle(paciente: string) {
+    this.data.setEmail(paciente);
+    this.router.navigate(['/historia-clinica']);
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

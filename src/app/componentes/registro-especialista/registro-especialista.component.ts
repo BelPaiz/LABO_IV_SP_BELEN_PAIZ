@@ -11,11 +11,13 @@ import { Subscription } from 'rxjs';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { recaptcha } from '../../../../enviromentCap';
 import { Usuario } from '../../models/usuario';
+import { PrimeraMayusculaDirective } from '../../directivas/primera-mayuscula.directive';
+import { BlockPegarDirective } from '../../directivas/block-pegar.directive';
 
 @Component({
   selector: 'app-registro-especialista',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RecaptchaModule, RecaptchaFormsModule, PrimeraMayusculaDirective, BlockPegarDirective],
   templateUrl: './registro-especialista.component.html',
   styleUrl: './registro-especialista.component.css',
   providers: [

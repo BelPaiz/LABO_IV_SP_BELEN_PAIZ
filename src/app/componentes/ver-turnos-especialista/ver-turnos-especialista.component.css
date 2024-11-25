@@ -44,7 +44,7 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 300px;
+    height: 350px;
     width: 350px;
     background-color: #eae1c5;
     margin: 10px;
@@ -72,6 +72,7 @@ body {
 
 .container-botones {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     width: 100%;
@@ -101,7 +102,7 @@ body {
     text-transform: uppercase;
     font-size: large;
     height: 8%;
-    width: 40%;
+    width: 45%;
     border-radius: 30px;
     font-family: 'Poppins-Light';
     font-size: medium;

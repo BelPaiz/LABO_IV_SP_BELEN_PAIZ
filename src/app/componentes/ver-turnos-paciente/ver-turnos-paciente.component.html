@@ -74,21 +74,21 @@
                             data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalVerEstado-' + turno.id">RECHAZADO</button>
 
-                        <button type="button" *ngIf="turno.estado === 'realizado'" class="btn btn-info"
+                        <button type="button" *ngIf="turno.estado === 'finalizado'" class="btn btn-info"
                             data-bs-toggle="modal"
-                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">REALIZADO</button>
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">FINALIZADO</button>
 
                         <button type="button" class="btn-outline-primary" data-bs-toggle="modal"
-                            *ngIf="turno.comentario || turno.comentario !== ''"
+                            *ngIf="turno.comentario && turno.comentario !== ''"
                             [attr.data-bs-target]="'#modalComentario-' + turno.id">COMENTARIO</button>
 
                         <button type="button"
-                            *ngIf="turno.estado === 'realizado' && turno.comentario && turno.encuesta?.length === 0"
+                            *ngIf="turno.estado === 'finalizado' && turno.comentario && turno.encuesta?.length === 0"
                             class="btn btn-primary" data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalEncuesta-' + turno.id">ENCUESTA</button>
 
                         <button type="button"
-                            *ngIf="turno.estado === 'realizado' && turno.calificacion === null || turno.calificacion === ''"
+                            *ngIf="turno.estado === 'finalizado' && turno.calificacion === null || turno.calificacion === ''"
                             class="btn btn-primary" data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalCalificar-' + turno.id">CALIFICAR</button>
                     </div>
@@ -106,7 +106,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body"
-                                *ngIf="turno.estado !== 'realizado' && turno.estado !== 'cancelado'">
+                                *ngIf="turno.estado !== 'finalizado' && turno.estado !== 'cancelado'">
                                 <div class="mb-3">
                                     <textarea class="form-control fuente" id="message-text"
                                         [(ngModel)]="comentario"></textarea>

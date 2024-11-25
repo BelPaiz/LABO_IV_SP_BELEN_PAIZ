@@ -71,8 +71,12 @@
                             data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalVerEstado-' + turno.id">RECHAZADO</button>
 
+                        <button type="button" *ngIf="turno.estado === 'finalizado'" class="btn btn-info"
+                            data-bs-toggle="modal"
+                            [attr.data-bs-target]="'#modalVerEstado-' + turno.id">FINALIZADO</button>
+
                         <button type="button" class="btn-outline-primary" data-bs-toggle="modal"
-                            *ngIf="turno.comentario"
+                            *ngIf="turno.comentario && turno.comentario !== ''"
                             [attr.data-bs-target]="'#modalComentario-' + turno.id">COMENTARIO</button>
                     </div>
                 </form>

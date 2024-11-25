@@ -43,6 +43,7 @@ export class VerTurnosPacienteComponent {
 
 
   ngOnInit(): void {
+    this.mensaje = "";
     this.loader.setLoader(true);
     if (this.turnosAll.length === 0) {
       const subs = this.auth.DatosAutenticacion().pipe(
@@ -51,6 +52,8 @@ export class VerTurnosPacienteComponent {
             this.email = email;
             return this.firestore.getTurnosByEmail(email);
           } else {
+            this.loader.setLoader(false);
+            this.mensaje = "Ocurrio un error al obtener sus turnos";
             return of(null);
           }
         })
@@ -62,8 +65,13 @@ export class VerTurnosPacienteComponent {
 
             this.mapearInfo();
           }
+          else {
+            this.loader.setLoader(false);
+            this.mensaje = "No hay turnos para mostrar";
+          }
         },
         error: (error) => {
+          this.loader.setLoader(false);
           console.error(error);
         }
       });
@@ -91,6 +99,13 @@ export class VerTurnosPacienteComponent {
         encuesta: turno.encuesta,
         calificacion: turno.calificacion,
         id: turno.id,
+        altura: turno.altura,
+        peso: turno.peso,
+        temperatura: turno.temperatura,
+        presion: turno.presion,
+        dato_uno: turno.dato_uno,
+        dato_dos: turno.dato_dos,
+        dato_tres: turno.dato_tres
       };
       return mapa;
     });
