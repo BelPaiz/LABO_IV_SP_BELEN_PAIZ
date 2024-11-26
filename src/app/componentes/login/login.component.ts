@@ -115,7 +115,6 @@ export class LoginComponent {
       this.loader.setLoader(false);
 
     } catch (e) {
-      console.log(e);
       this.loader.setLoader(false);
     }
 

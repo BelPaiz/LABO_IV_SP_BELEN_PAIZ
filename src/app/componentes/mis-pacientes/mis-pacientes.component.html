@@ -1,6 +1,8 @@
 <body>
     <div class="container">
+
         <div class="container-lista">
+
             <ul class="list-group lista">
                 <ng-container *ngFor="let paciente of turnosMap">
                     <li class="list-group-item item" *ngIf="paciente.estado === 'finalizado'"

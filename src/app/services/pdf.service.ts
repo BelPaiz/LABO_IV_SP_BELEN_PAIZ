@@ -32,7 +32,6 @@ export class PDFService {
     if (typeof todayText === 'string') {
       doc.text(todayText, 14, 30);
     }
-    console.log(turnos);
 
     // Datos del paciente
     doc.setFontSize(14);

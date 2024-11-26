@@ -93,7 +93,7 @@ export class SeleccionHoraComponent implements OnChanges, OnInit, OnDestroy {
         disponible: []
       };
       this.disponibilidad = this.disponibles; //cargo el array de disponibilidad
-      console.log(this.disponibles);
+
       this.traerTurnosOcupados(); //me traigo los turnos ocupados que coincidan con la fecha y el especialista elegidos
     }
     if (changes['especialista_elegido'] && changes['especialista_elegido'].currentValue) {
@@ -166,7 +166,7 @@ export class SeleccionHoraComponent implements OnChanges, OnInit, OnDestroy {
           this.turnosOcupados = turnos;
           const turnosFiltrados = this.turnosOcupados.filter(turno => turno.fecha === this.fecha_elegida);
           this.turnosOcupados = turnosFiltrados;
-          console.log(this.turnosOcupados);
+
           this.excluirOcupados(); //excluyo del array de disponibilidad.disponible los turnos que ya esten ocupados
         }
       },

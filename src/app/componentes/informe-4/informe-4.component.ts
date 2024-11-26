@@ -241,6 +241,11 @@ export class Informe4Component {
   }
 
   descargar() {
+
+    if (this.diaCan.length === 0) {
+      this.mensaje = 'Seleccione fechas';
+      return;
+    }
     this.pdf.generatePDFCanva('contenido', 'informe de turnos.pdf');
   }
 

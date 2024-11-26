@@ -20,7 +20,7 @@ export class ListadoEspecialistasComponent {
   cambiosHabilitado(usuario: any) {
     this.firestore.updateEspecialista(usuario.dni, usuario.habilitado)
       .then(() => {
-        console.log("Campo habilitado actualizado");
+        console.log("habilitado");
       })
       .catch((error) => {
         console.log("hubo un error");

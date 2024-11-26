@@ -40,7 +40,6 @@ export class Informes2Component implements OnInit {
 
           this.turnosAll = turnos;
           this.conseguirCantidades();
-          // console.log(this.espeCan);
           this.loader.setLoader(false);
         }
         else {

@@ -30,6 +30,7 @@ export class MisPacientesComponent {
   paciente_nombre: string = "";
   especialista_nombre: string = "";
   turnosMap!: any[];
+  mensaje: string = "";
 
 
 
@@ -42,6 +43,7 @@ export class MisPacientesComponent {
             this.email = email;
             return this.firestore.getTurnosByEmailEspecialista(email);
           } else {
+
             return of(null);
           }
         })
@@ -53,14 +55,24 @@ export class MisPacientesComponent {
 
             this.mapearInfo();
           }
+          else {
+            this.loader.setLoader(false);
+
+          }
         },
         error: (error) => {
           console.error(error);
+          this.loader.setLoader(false);
+
         }
       });
       this.subscription.add(subs);
+      this.loader.setLoader(false);
+
+
     } else {
       this.loader.setLoader(false);
+
     }
 
   }

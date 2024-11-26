@@ -115,7 +115,7 @@ export class AppComponent implements OnInit {
       this.user = res;
 
     } catch (e) {
-      // console.log(e);
+
     }
   }
 

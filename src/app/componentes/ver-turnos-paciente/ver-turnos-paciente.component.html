@@ -83,7 +83,7 @@
                             [attr.data-bs-target]="'#modalComentario-' + turno.id">COMENTARIO</button>
 
                         <button type="button"
-                            *ngIf="turno.estado === 'finalizado' && turno.comentario && turno.encuesta?.length === 0"
+                            *ngIf="turno.estado === 'finalizado' && turno.comentario && (turno.encuesta?.length === 0 || turno.encuesta === null)"
                             class="btn btn-primary" data-bs-toggle="modal"
                             [attr.data-bs-target]="'#modalEncuesta-' + turno.id">ENCUESTA</button>
 

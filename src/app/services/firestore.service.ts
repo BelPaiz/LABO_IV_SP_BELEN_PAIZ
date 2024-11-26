@@ -158,11 +158,6 @@ export class FirestoreService {
     return collectionData(tipoQuery);
   }
 
-  // getDisponibilidadPorEspecialidad(especialidad: string): Observable<Disponibilidad[]> {
-  //   const col = collection(this.firestore, 'disponibilidad');
-  //   const tipoQuery = query(col, where('especialidad', '==', especialidad));
-  //   return collectionData(tipoQuery);
-  // }
 
   async getDisponibilidadId(disponibilidad: Disponibilidad) {
     let col = collection(this.firestore, 'disponibilidad');
